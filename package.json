@@ -1,6 +1,6 @@
 {
   "name": "fauda",
-  "version": "0.0.0",
+  "version": "0.1.0-0",
   "description": "Don't worry about configuration anymore.",
   "author": "Nicolas Gryman <ngryman@gmail.com> (https://ngryman.sh)",
   "license": "MIT",
