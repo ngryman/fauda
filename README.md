@@ -59,7 +59,6 @@ For more information please take a look at TODO.
       "description": "The type of pasta.",
       "type": "string",
       "enum": ["Fettuccine", "Tagliatelle"],
-      "required": true,
       "default": "Fettuccine"
     },
     "cookingTime": {
@@ -75,7 +74,8 @@ For more information please take a look at TODO.
       },
       "default": ["Salt", "Pepper", "Olive Oil", "Pecorino"]
     }
-  }
+  },
+  "required": ["type"]
 }
 ```
 
