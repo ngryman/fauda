@@ -13,11 +13,15 @@
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#getting-started">Getting Started</a> •
+  <a href="#how-does-it-work">How does it work?</a> •
   <a href="#usage">Usage</a> •
   <a href="#api">API</a> •
+  <a href="#faq">FAQ</a>
 </p>
 
 ---
+
+Fauda **loads** and **normalizes** your configuration from multiple sources at the same time, giving flexibility to the users of your library / application to configure it in various ways.
 
 ## Features
 
@@ -120,17 +124,19 @@ async function loadConfiguration() {
 
 </details>
 
-## How does Fauda work?
+## How does it work?
 
-It collects your configuration from various sources at the same time:
+Fauda loads your configuration from several sources using the following order of precedence: `environment variables > command-line arguments > configuration files`. Option names are inflected according the source's typical naming convention.
 
-- Environment variables
-- Command-line arguments
-- Configuration files
+For instance, asuming your package is named `pasta`, here's of how the `cookingTime` option name would be transposed for each source:
 
-Once collected, configurations are merged using the above order of precedence. It means that if the same option is collected from both an environment variable and a configuration file, the former will kept.
+| Source                | Name                 |
+| --------------------- | -------------------- |
+| Configuration file    | `cookingTime`        |
+| Command-line argument | `--cooking-time`     |
+| Environment variable  | `PASTA_COOKING_TIME` |
 
-Finally, it normalizes your configuration. The normalization process validates your configuration using the provided JSON schema. It checks that the types of the collected options are valid and sets default values if necessary. It also expand environment variables that are references in options.
+Once your configuration loaded, it is normalized into a valid configuration object that your library / application can use safely. The normalization process validates your configuration using the provided JSON schema. It checks that the type of options are valid, required options are specified, sets default values, and also expand environment variables that are referenced!
 
 <details>
 <summary>🙋🏻‍♂️ <i>What is environment variable expansion?</i></summary><br>
@@ -149,34 +155,34 @@ Here's an example of an option referencing a environment variable:
 
 ## Usage
 
-## Configuration files
+### Configuration files
 
-First, it tries to find the `config.${myPackage}` property in your `package.json` file.
+Fauda first tries to find a `config.${myPackage}` property in your `package.json` file.
 
-Then, it tries to load a configuration file starting from the current directory up to the root.
+Then it searches for a configuration file starting from the current directory up to the root.
 
-The following files are supported by default:
+Several configuration file names and formats are supported:
 
 | File                               | Format |
 | ---------------------------------- | ------ |
-| `.${namespace}rc`                  | `json` |
-| `${namespace}.config.js`           | `js`   |
-| `${namespace}.config.json`         | `json` |
-| `${namespace}.config.ts`           | `ts`   |
-| `${namespace}.config.yaml`         | `yaml` |
-| `${namespace}.config.yml`          | `yaml` |
-| `.config/${namespace}rc`           | `json` |
-| `.config/${namespace}.config.js`   | `js`   |
-| `.config/${namespace}.config.json` | `json` |
-| `.config/${namespace}.config.ts`   | `ts`   |
-| `.config/${namespace}.config.yaml` | `yaml` |
-| `.config/\${namespace}.config.yml` | `yaml` |
+| `.${myPackage}rc`                  | `json` |
+| `${myPackage}.config.js`           | `js`   |
+| `${myPackage}.config.json`         | `json` |
+| `${myPackage}.config.ts`           | `ts`   |
+| `${myPackage}.config.yaml`         | `yaml` |
+| `${myPackage}.config.yml`          | `yaml` |
+| `.config/${myPackage}rc`           | `json` |
+| `.config/${myPackage}.config.js`   | `js`   |
+| `.config/${myPackage}.config.json` | `json` |
+| `.config/${myPackage}.config.ts`   | `ts`   |
+| `.config/${myPackage}.config.yaml` | `yaml` |
+| `.config/\${myPackage}.config.yml` | `yaml` |
 
-You can however customize these defaults with the [TODO] options.
-
-## Command-line arguments
+### Command-line arguments
 
 Fauda parses command-line arguments as you can expect from any other argument parsers!
+
+Options are "kebab-"cased. For instance, the `cookingTime` option is transposed as the `--cooking-time` command-line argument.
 
 <details>
 <summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
@@ -195,9 +201,9 @@ $ pasta --types="['Fettuccine', 'Tagliatelle']"
 
 </details>
 
-## Environment variables
+### Environment variables
 
-Fauda parses environment variables that are prefixed with your package's name. This is done to avoid name clashes with other tools or system-wide environment variables.
+Fauda parses environment variables prefixed with your package's name. This is precaution to avoid name clashes with other application or system-wide environment variables.
 
 For instance, if your package's name is `pasta`, then Fauda will parse variables starting with `PASTA_`.
 
