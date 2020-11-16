@@ -3,7 +3,7 @@ import getopts from 'getopts'
 import { parseArray } from './utils'
 
 /**
- * Loads settings from command line arguments.
+ * Loads configuration from command line arguments.
  *
  * Arguments name describe a path to the desired options using `-` as
  * separator.

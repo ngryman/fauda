@@ -12,13 +12,13 @@ const defaultOptions: Options = {
   schema: {}
 }
 
-export function normalize<Settings>(
-  settings: {},
+export function normalize<Configuration>(
+  config: {},
   options: Partial<Options> = {}
-): Settings {
+): Configuration {
   const { env, schema } = { ...defaultOptions, ...options }
   return flow(
     _ => expandVars(_, env),
-    _ => validate<Settings>(_, schema)
-  )(settings)
+    _ => validate<Configuration>(_, schema)
+  )(config)
 }

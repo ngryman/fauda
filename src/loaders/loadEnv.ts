@@ -2,7 +2,7 @@ import { camelCase, chain, replace, trim, upperCase } from 'lodash'
 import { parseArray } from './utils'
 
 /**
- * Loads settings from environment variables.
+ * Loads configuration from environment variables.
  *
  * Environment variables are prefixed with the upper cased namespace.
  * The rest of the variable name describe a path to the desired option.

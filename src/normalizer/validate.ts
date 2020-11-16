@@ -12,7 +12,10 @@ function createError(errors: Ajv.ErrorObject[]): Error {
 /**
  * @see https://github.com/ajv-validator/ajv
  */
-export function validate<Settings>(input: any, schema: any): Settings {
+export function validate<Configuration>(
+  input: any,
+  schema: any
+): Configuration {
   const ajv = new Ajv({
     allErrors: true,
     async: true,
@@ -28,5 +31,5 @@ export function validate<Settings>(input: any, schema: any): Settings {
     throw createError(ajv.errors!)
   }
 
-  return output as Settings
+  return output
 }

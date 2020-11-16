@@ -5,8 +5,8 @@ async function getSchema() {
   return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
 }
 
-describe('given settings', () => {
-  it('merges default settings', async () => {
+describe('given configuration', () => {
+  it('merges default configuration', async () => {
     expect(normalize({ string: 'bar' }, { schema: await getSchema() }))
       .toMatchInlineSnapshot(`
       Object {
@@ -45,8 +45,8 @@ describe('given settings', () => {
   })
 })
 
-describe('given empty settings', () => {
-  it('returns the default settings', async () => {
+describe('given empty configuration', () => {
+  it('returns the default configuration', async () => {
     expect(normalize({}, { schema: await getSchema() })).toMatchInlineSnapshot(`
       Object {
         "boolean": true,

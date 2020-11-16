@@ -21,24 +21,24 @@ async function loadFromAll({
   env,
   namespace
 }: FaudaOptions): Promise<{}> {
-  const resolvedSettings = await Promise.all([
+  const resolvedConfig = await Promise.all([
     loadFromEnv(env, namespace),
     loadFromArgs(args),
     loadFromFile(cwd, namespace)
   ])
-  const mergedSettings = reduceRight(resolvedSettings, merge, {})
-  return mergedSettings
+  const mergedConfig = reduceRight(resolvedConfig, merge, {})
+  return mergedConfig
 }
 
 /**
- * Loads settings, in order of precedence, from environment, command line
- * arguments, and configuration files.
+ * Loads configuration, from environment variables, command-line arguments,
+ * and configuration files.
  */
-export async function load<Settings>(
+export async function load<Configuration>(
   options: Partial<FaudaOptions> = {}
-): Promise<Settings> {
+): Promise<Configuration> {
   const safeOptions = normalizeOptions(options)
-  const resolvedSettings = await loadFromAll(safeOptions)
-  const safeSettings = normalize<Settings>(resolvedSettings, safeOptions)
-  return safeSettings
+  const resolvedConfig = await loadFromAll(safeOptions)
+  const safeConfig = normalize<Configuration>(resolvedConfig, safeOptions)
+  return safeConfig
 }

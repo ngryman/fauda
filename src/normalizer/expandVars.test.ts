@@ -34,6 +34,6 @@ const TEST_CASES: [string, NodeJS.ProcessEnv, {}, {}][] = [
   ['do not crash on other primitives', {}, { foo: 1337 }, { foo: '1337' }]
 ]
 
-test.each(TEST_CASES)('%s', (_title, env, settings, expected) => {
-  expect(expandVars(settings, env)).toEqual(expected)
+test.each(TEST_CASES)('%s', (_title, env, config, expected) => {
+  expect(expandVars(config, env)).toEqual(expected)
 })

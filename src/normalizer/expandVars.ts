@@ -9,8 +9,8 @@ function expandVar(value: Primitive, env: NodeJS.ProcessEnv): Primitive {
   )
 }
 
-export function expandVars(settings: {}, env: NodeJS.ProcessEnv): {} {
-  return mapValues(settings, (v: Primitive) =>
+export function expandVars(config: {}, env: NodeJS.ProcessEnv): {} {
+  return mapValues(config, (v: Primitive) =>
     isArray(v)
       ? map(v, (vv: Primitive) => expandVar(vv, env))
       : expandVar(v, env)

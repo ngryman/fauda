@@ -23,14 +23,7 @@ export function getDefaultSearchPlaces(namespace: string) {
 }
 
 /**
- * Loads settings from a configuration file.
- *
- * It searches up the directory tree for:
- *
- * 1. a `graph0` property in `package.json`.
- * 2. a `.graph0rc` file in JSON or YAML format.
- * 3. a `.graph0rc.{json,yaml,yml,js,cjs}` file.
- * 4. a `graph0.config.{js,cjs}` file.
+ * Loads configuration from a file.
  *
  * @see https://github.com/davidtheclark/cosmiconfig
  */

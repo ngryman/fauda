@@ -41,6 +41,10 @@ npm install fauda
 <details>
 <summary><b>2️⃣ Set up</b> your JSON schema</summary><br>
 
+Fauda relies on a [JSON schema](https://json-schema.org/) to load and validate your configuration, but also to generate types.
+
+For more information please take a look at TODO.
+
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema",
@@ -74,10 +78,6 @@ npm install fauda
   }
 }
 ```
-
-Fauda relies on a [JSON schema](https://json-schema.org/) to load and validate your configuration, but also to generate types.
-
-For more information please take a look at TODO.
 
 </details>
 
@@ -122,7 +122,7 @@ async function loadConfiguration() {
 
 ## How does Fauda work?
 
-It first collects your configuration from various sources at the same time:
+It collects your configuration from various sources at the same time:
 
 - Environment variables
 - Command-line arguments
@@ -133,7 +133,7 @@ Once collected, configurations are merged using the above order of precedence. I
 Finally, it normalizes your configuration. The normalization process validates your configuration using the provided JSON schema. It checks that the types of the collected options are valid and sets default values if necessary. It also expand environment variables that are references in options.
 
 <details>
-<summary><i>🙋🏻‍♂️ What is environment variable expansion?</i></summary><br>
+<summary>🙋🏻‍♂️ <i>What is environment variable expansion?</i></summary><br>
 
 You can reference an environment variable's name as your option's value. Fauda will replace it by the variable's value when loading the configuration.
 
@@ -179,7 +179,7 @@ You can however customize these defaults with the [TODO] options.
 Fauda parses command-line arguments as you can expect from any other argument parsers!
 
 <details>
-<summary><i>🙋🏻‍♂️ What about arrays?</i></summary><br>
+<summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
 
 Arrays are supported in two ways.
 
@@ -197,12 +197,12 @@ $ pasta --types="['Fettuccine', 'Tagliatelle']"
 
 ## Environment variables
 
-Fauda parses environment variables that are prefixed with your package's name. This is done to avoid name clashes with other tools of system-wide environment variables.
+Fauda parses environment variables that are prefixed with your package's name. This is done to avoid name clashes with other tools or system-wide environment variables.
 
 For instance, if your package's name is `pasta`, then Fauda will parse variables starting with `PASTA_`.
 
 <details>
-<summary><i>🙋🏻‍♂️ What about arrays?</i></summary><br>
+<summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
 
 Arrays are supported! You simply need to declare a JSON-compatible array wrapped between quotes.
 

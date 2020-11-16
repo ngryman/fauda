@@ -21,26 +21,26 @@ function camelCaseNames(source: string): string {
 }
 
 /**
- * Renames the generated interface to `PartialSettings`.
+ * Renames the generated interface to `Configuration`.
  */
 function renameInterface(source: string): string {
-  return source.replace(/(export interface )(\w+)( {)/, '$1PartialSettings$3')
+  return source.replace(/(export interface )(\w+)( {)/, '$1Configuration$3')
 }
 
 function removeAdditionalProperties(source: string): string {
   return source.replace(/\n\s*\[k: string\]: unknown;?/, '')
 }
 
-function appendRequiredType(source: string): string {
-  return source + 'export type Settings = Required<PartialSettings>\n'
-}
+// function appendRequiredType(source: string): string {
+//   return source + 'export type Settings = Required<PartialSettings>\n'
+// }
 
 function postProcess(source: string) {
   return flow(
     camelCaseNames,
     renameInterface,
-    removeAdditionalProperties,
-    appendRequiredType
+    removeAdditionalProperties
+    // appendRequiredType
   )(source)
 }
 

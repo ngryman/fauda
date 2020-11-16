@@ -21,8 +21,8 @@ describe('given environment variables', () => {
       namespace: 'fauda',
       schema: await getSchema()
     }
-    const settings = await load(options)
-    expect(settings).toMatchInlineSnapshot(`
+    const configuration = await load(options)
+    expect(configuration).toMatchInlineSnapshot(`
       Object {
         "boolean": true,
         "list": Array [
@@ -43,8 +43,8 @@ describe('given command line arguments', () => {
       env: {},
       schema: await getSchema()
     }
-    const settings = await load(options)
-    expect(settings).toMatchInlineSnapshot(`
+    const config = await load(options)
+    expect(config).toMatchInlineSnapshot(`
       Object {
         "boolean": true,
         "list": Array [
@@ -63,14 +63,14 @@ describe('given a configuration file', () => {
     const testProject = new TestProject()
     try {
       await testProject.setup()
-      const settings = await load({
+      const config = await load({
         args: [],
         cwd: testProject.rootDir,
         env: {},
         namespace: 'fauda',
         schema: await getSchema()
       })
-      expect(settings).toMatchInlineSnapshot(`
+      expect(config).toMatchInlineSnapshot(`
         Object {
           "boolean": true,
           "list": Array [
