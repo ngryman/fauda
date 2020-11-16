@@ -28,9 +28,9 @@ export function getDefaultSearchPlaces(namespace: string) {
  * @see https://github.com/davidtheclark/cosmiconfig
  */
 export async function loadFromFile(
-  cwd: string,
-  namespace: string
-): Promise<{}> {
+  namespace: string,
+  cwd: string
+): Promise<JsonObject> {
   const options: CosmiconfigOptions = {
     loaders: { '.ts': loadTs },
     packageProp: `config.${namespace}`,

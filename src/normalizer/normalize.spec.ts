@@ -7,7 +7,7 @@ async function getSchema() {
 
 describe('given configuration', () => {
   it('merges default configuration', async () => {
-    expect(normalize({ cookingTime: 200 }, { schema: await getSchema() }))
+    expect(normalize({ cookingTime: 200 }, await getSchema(), process.env))
       .toMatchInlineSnapshot(`
       Object {
         "cookingTime": 200,
@@ -24,25 +24,26 @@ describe('given configuration', () => {
 
   it('expands environment variables', async () => {
     expect(
-      normalize(
-        { cookingTime: '${NUMBER}' },
-        { env: { NUMBER: '200' }, schema: await getSchema() }
-      )
+      normalize({ cookingTime: '${NUMBER}' }, await getSchema(), {
+        NUMBER: '200'
+      })
     ).toMatchObject({ cookingTime: 200 })
   })
 
   it('throws an error for invalid values', async () => {
     await expect(async () =>
-      normalize({ cookingTime: 'nope' }, { schema: await getSchema() })
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `".cookingTime should be number"`
-    )
+      normalize({ cookingTime: 'nope' }, await getSchema(), process.env)
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+            "validate: Validation failed
+            .cookingTime should be number"
+          `)
   })
 })
 
 describe('given empty configuration', () => {
   it('returns the default configuration', async () => {
-    expect(normalize({}, { schema: await getSchema() })).toMatchInlineSnapshot(`
+    expect(normalize({}, await getSchema(), process.env))
+      .toMatchInlineSnapshot(`
       Object {
         "cookingTime": 300,
         "seasoning": Array [

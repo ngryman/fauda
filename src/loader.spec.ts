@@ -1,14 +1,9 @@
-import { promises as fs } from 'fs'
 import { TestProject } from '../test/utils/testProject'
 import { load } from './loader'
 import { FaudaOptions } from './types'
 
-async function getSchema() {
-  return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
-}
-
-describe('given environment variables', () => {
-  it('loads them mixed with defaults', async () => {
+describe('given a JSON schema', () => {
+  it('loads environment variables', async () => {
     const options: FaudaOptions = {
       args: [],
       cwd: '',
@@ -16,11 +11,13 @@ describe('given environment variables', () => {
         PASTA_COOKING_TIME: '200',
         PASTA_SEASONING: "['Salt', 'Pepper', 'Tomato Sauce']",
         NODE_ENV: 'development'
-      },
-      namespace: 'pasta',
-      schema: await getSchema()
+      }
     }
-    const configuration = await load(options)
+    const configuration = await load(
+      'pasta',
+      'test/fixtures/schema.json',
+      options
+    )
     expect(configuration).toMatchInlineSnapshot(`
       Object {
         "cookingTime": 200,
@@ -31,11 +28,9 @@ describe('given environment variables', () => {
       }
     `)
   })
-})
 
-describe('given command line arguments', () => {
-  it('loads them mixed with defaults', async () => {
-    const options = {
+  it('loads command-line arguments', async () => {
+    const options: FaudaOptions = {
       args: [
         '--cooking-time=200',
         '--seasoning=Salt',
@@ -43,10 +38,9 @@ describe('given command line arguments', () => {
         "--seasoning='Tomato Sauce'"
       ],
       cwd: '',
-      env: {},
-      schema: await getSchema()
+      env: {}
     }
-    const config = await load(options)
+    const config = await load('pasta', 'test/fixtures/schema.json', options)
     expect(config).toMatchInlineSnapshot(`
       Object {
         "cookingTime": 200,
@@ -59,20 +53,17 @@ describe('given command line arguments', () => {
       }
     `)
   })
-})
 
-describe('given a configuration file', () => {
-  it('loads it mixed with defaults', async () => {
+  it('loads a configurationn file', async () => {
     const testProject = new TestProject()
     try {
       await testProject.setup()
-      const config = await load({
+      const options: FaudaOptions = {
         args: [],
         cwd: testProject.rootDir,
-        env: {},
-        namespace: 'fauda',
-        schema: await getSchema()
-      })
+        env: {}
+      }
+      const config = await load('pasta', 'test/fixtures/schema.json', options)
       expect(config).toMatchInlineSnapshot(`
         Object {
           "cookingTime": 200,
@@ -84,10 +75,18 @@ describe('given a configuration file', () => {
           "type": "Fettuccine",
         }
       `)
-    } catch (err) {
-      throw err
     } finally {
       await testProject.teardown()
     }
+  })
+})
+
+describe('given invalid arguments', () => {
+  it('throws an error if the schema does not exists', async () => {
+    await expect(() => load('pasta', '/the/void')).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+        "load: Error loading schema
+        ENOENT: no such file or directory, open '/the/void'"
+      `)
   })
 })

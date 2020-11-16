@@ -1,4 +1,5 @@
 import { camelCase, chain, replace, trim, upperCase } from 'lodash'
+import { JsonObject } from 'type-fest'
 import { parseArray } from './utils'
 
 /**
@@ -12,7 +13,10 @@ import { parseArray } from './utils'
  * GRAPH0_SERVER_PORT=1337
  * GRAPH0_DIRECTIVES="['@graph0/directives', './directives']"
  */
-export function loadFromEnv(env: NodeJS.ProcessEnv, namespace: string): {} {
+export function loadFromEnv(
+  namespace: string,
+  env: NodeJS.ProcessEnv
+): JsonObject {
   const prefix = `${upperCase(namespace)}_`
   return chain(env)
     .pickBy((_v, k) => k.startsWith(prefix))
@@ -20,5 +24,5 @@ export function loadFromEnv(env: NodeJS.ProcessEnv, namespace: string): {} {
     .mapKeys((_v, k) => camelCase(k))
     .mapValues(trim)
     .mapValues(parseArray)
-    .value()
+    .value() as JsonObject
 }

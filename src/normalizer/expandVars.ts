@@ -1,5 +1,5 @@
 import { isArray, map, mapValues } from 'lodash'
-import { Primitive } from 'type-fest'
+import { JsonObject, Primitive } from 'type-fest'
 
 const varRegex = /([\\])?\${([\w]+)}/g
 
@@ -9,7 +9,10 @@ function expandVar(value: Primitive, env: NodeJS.ProcessEnv): Primitive {
   )
 }
 
-export function expandVars(config: {}, env: NodeJS.ProcessEnv): {} {
+export function expandVars(
+  config: JsonObject,
+  env: NodeJS.ProcessEnv
+): JsonObject {
   return mapValues(config, (v: Primitive) =>
     isArray(v)
       ? map(v, (vv: Primitive) => expandVar(vv, env))

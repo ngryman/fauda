@@ -1,7 +1,7 @@
 import { TestProject } from '../../test/utils/testProject'
 import { loadFromFile, getDefaultSearchPlaces } from './loadFile'
 
-const SEARCH_PLACES = getDefaultSearchPlaces('fauda')
+const SEARCH_PLACES = getDefaultSearchPlaces('pasta')
 
 const TEST_CASES: [string, string][] = [
   ['load in current directory', '.'],
@@ -20,7 +20,7 @@ describe.each(SEARCH_PLACES)('given a %s file', variant => {
 
   test.each(TEST_CASES)('%s', async (_title, cwd) => {
     await expect(
-      loadFromFile(testProject.resolvePath(cwd), 'fauda')
+      loadFromFile('pasta', testProject.resolvePath(cwd))
     ).resolves.toEqual(EXCEPTED)
   })
 
