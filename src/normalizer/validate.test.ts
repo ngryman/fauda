@@ -8,47 +8,45 @@ async function getSchema() {
 test('set default values to missing properties', async () => {
   expect(validate({}, await getSchema())).toMatchInlineSnapshot(`
     Object {
-      "boolean": true,
-      "list": Array [
-        "foo",
+      "cookingTime": 300,
+      "seasoning": Array [
+        "Salt",
+        "Pepper",
+        "Olive Oil",
+        "Pecorino",
       ],
-      "number": 1337,
-      "string": "foo",
+      "type": "Fettuccine",
     }
   `)
-})
-
-test('remove additional properties', async () => {
-  expect(validate({ foo: 'bar' }, await getSchema())).not.toHaveProperty('foo')
 })
 
 test('coerce a string to number when the type is a number', async () => {
   expect(
     validate(
       {
-        number: '42'
+        cookingTime: '200'
       },
       await getSchema()
     )
-  ).toMatchObject({ number: 42 })
+  ).toMatchObject({ cookingTime: 200 })
 })
 
 test('coerce a string to an array when the type is an array', async () => {
   expect(
     validate(
       {
-        list: 'foo'
+        seasoning: 'Salt'
       },
       await getSchema()
     )
-  ).toMatchObject({ list: ['foo'] })
+  ).toMatchObject({ seasoning: ['Salt'] })
 })
 
 test('throw an error for invalid values', async () => {
   await expect(async () =>
-    validate({ number: 'nope', list: {} }, await getSchema())
+    validate({ cookingTime: 'nope', seasoning: {} }, await getSchema())
   ).rejects.toThrowErrorMatchingInlineSnapshot(`
-    ".number should be number
-    .list should be array"
+    ".cookingTime should be number
+    .seasoning should be array"
   `)
 })

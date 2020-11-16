@@ -7,15 +7,17 @@ async function getSchema() {
 
 describe('given configuration', () => {
   it('merges default configuration', async () => {
-    expect(normalize({ string: 'bar' }, { schema: await getSchema() }))
+    expect(normalize({ cookingTime: 200 }, { schema: await getSchema() }))
       .toMatchInlineSnapshot(`
       Object {
-        "boolean": true,
-        "list": Array [
-          "foo",
+        "cookingTime": 200,
+        "seasoning": Array [
+          "Salt",
+          "Pepper",
+          "Olive Oil",
+          "Pecorino",
         ],
-        "number": 1337,
-        "string": "bar",
+        "type": "Fettuccine",
       }
     `)
   })
@@ -23,25 +25,18 @@ describe('given configuration', () => {
   it('expands environment variables', async () => {
     expect(
       normalize(
-        { number: '${NUMBER}' },
-        { env: { NUMBER: '42' }, schema: await getSchema() }
+        { cookingTime: '${NUMBER}' },
+        { env: { NUMBER: '200' }, schema: await getSchema() }
       )
-    ).toMatchInlineSnapshot(`
-      Object {
-        "boolean": true,
-        "list": Array [
-          "foo",
-        ],
-        "number": 42,
-        "string": "foo",
-      }
-    `)
+    ).toMatchObject({ cookingTime: 200 })
   })
 
   it('throws an error for invalid values', async () => {
     await expect(async () =>
-      normalize({ number: 'nope' }, { schema: await getSchema() })
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`".number should be number"`)
+      normalize({ cookingTime: 'nope' }, { schema: await getSchema() })
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `".cookingTime should be number"`
+    )
   })
 })
 
@@ -49,12 +44,14 @@ describe('given empty configuration', () => {
   it('returns the default configuration', async () => {
     expect(normalize({}, { schema: await getSchema() })).toMatchInlineSnapshot(`
       Object {
-        "boolean": true,
-        "list": Array [
-          "foo",
+        "cookingTime": 300,
+        "seasoning": Array [
+          "Salt",
+          "Pepper",
+          "Olive Oil",
+          "Pecorino",
         ],
-        "number": 1337,
-        "string": "foo",
+        "type": "Fettuccine",
       }
     `)
   })

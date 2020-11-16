@@ -10,29 +10,24 @@ describe('given a schema object', () => {
     const schema = await getSchema()
     const source = await generateTypes(schema)
     expect(source).toMatchInlineSnapshot(`
-      "export interface PartialSettings {
+      "export interface Configuration {
         /**
-         * Path to this schema.
+         * Path to my pasta app's schema.
          */
         $schema?: string;
         /**
-         * A string.
+         * The type of pasta.
          */
-        string?: string;
+        type: \\"Fettuccine\\" | \\"Tagliatelle\\";
         /**
-         * A number.
+         * Cooking time in seconds.
          */
-        number?: number;
+        cookingTime?: number;
         /**
-         * A boolean.
+         * A list of seasoning ingredients.
          */
-        boolean?: boolean;
-        /**
-         * A list of things.
-         */
-        list?: string[];
+        seasoning?: string[];
       }
-      export type Settings = Required<PartialSettings>
       "
     `)
   })
@@ -45,29 +40,24 @@ describe('given a schema object', () => {
       }
     })
     expect(source).toMatchInlineSnapshot(`
-      "export interface PartialSettings {
+      "export interface Configuration {
         /**
-         * Path to this schema.
+         * Path to my pasta app's schema.
          */
         $schema?: string
         /**
-         * A string.
+         * The type of pasta.
          */
-        string?: string
+        type: \\"Fettuccine\\" | \\"Tagliatelle\\"
         /**
-         * A number.
+         * Cooking time in seconds.
          */
-        number?: number
+        cookingTime?: number
         /**
-         * A boolean.
+         * A list of seasoning ingredients.
          */
-        boolean?: boolean
-        /**
-         * A list of things.
-         */
-        list?: string[]
+        seasoning?: string[]
       }
-      export type Settings = Required<PartialSettings>
       "
     `)
   })
@@ -77,29 +67,24 @@ describe('given a schema file', () => {
   it('generate the associated types', async () => {
     const source = await generateTypesFromFile('test/fixtures/schema.json')
     expect(source).toMatchInlineSnapshot(`
-      "export interface PartialSettings {
+      "export interface Configuration {
         /**
-         * Path to this schema.
+         * Path to my pasta app's schema.
          */
         $schema?: string;
         /**
-         * A string.
+         * The type of pasta.
          */
-        string?: string;
+        type: \\"Fettuccine\\" | \\"Tagliatelle\\";
         /**
-         * A number.
+         * Cooking time in seconds.
          */
-        number?: number;
+        cookingTime?: number;
         /**
-         * A boolean.
+         * A list of seasoning ingredients.
          */
-        boolean?: boolean;
-        /**
-         * A list of things.
-         */
-        list?: string[];
+        seasoning?: string[];
       }
-      export type Settings = Required<PartialSettings>
       "
     `)
   })
@@ -111,29 +96,24 @@ describe('given a schema file', () => {
       }
     })
     expect(source).toMatchInlineSnapshot(`
-      "export interface PartialSettings {
+      "export interface Configuration {
         /**
-         * Path to this schema.
+         * Path to my pasta app's schema.
          */
         $schema?: string
         /**
-         * A string.
+         * The type of pasta.
          */
-        string?: string
+        type: \\"Fettuccine\\" | \\"Tagliatelle\\"
         /**
-         * A number.
+         * Cooking time in seconds.
          */
-        number?: number
+        cookingTime?: number
         /**
-         * A boolean.
+         * A list of seasoning ingredients.
          */
-        boolean?: boolean
-        /**
-         * A list of things.
-         */
-        list?: string[]
+        seasoning?: string[]
       }
-      export type Settings = Required<PartialSettings>
       "
     `)
   })

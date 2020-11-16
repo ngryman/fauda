@@ -4,14 +4,13 @@ import { loadFromFile, getDefaultSearchPlaces } from './loadFile'
 const SEARCH_PLACES = getDefaultSearchPlaces('fauda')
 
 const TEST_CASES: [string, string][] = [
-  ['load in current directory', '.']
-  // ['load in parent directory', 'upward']
+  ['load in current directory', '.'],
+  ['load in parent directory', 'upward']
 ]
 
 const EXCEPTED = {
-  list: ['bar'],
-  number: 42,
-  string: 'bar'
+  cookingTime: 200,
+  seasoning: ['Salt', 'Pepper', 'Tomato Sauce']
 }
 
 describe.each(SEARCH_PLACES)('given a %s file', variant => {

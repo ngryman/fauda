@@ -1,36 +1,31 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "title": "Example JSON schema",
+  "title": "My awesome pasta app configuration",
   "type": "object",
   "properties": {
     "$schema": {
-      "description": "Path to this schema.",
+      "description": "Path to my pasta app's schema.",
       "type": "string"
     },
-    "string": {
-      "description": "A string.",
+    "type": {
+      "description": "The type of pasta.",
       "type": "string",
-      "default": "foo"
+      "enum": ["Fettuccine", "Tagliatelle"],
+      "default": "Fettuccine"
     },
-    "number": {
-      "description": "A number.",
+    "cookingTime": {
+      "description": "Cooking time in seconds.",
       "type": "number",
-      "default": 1337
+      "default": 300
     },
-    "boolean": {
-      "description": "A boolean.",
-      "type": "boolean",
-      "default": true
-    },
-    "list": {
-      "description": "A list of things.",
+    "seasoning": {
+      "description": "A list of seasoning ingredients.",
       "type": "array",
       "items": {
-        "type": "string",
-        "minItems": 1
+        "type": "string"
       },
-      "default": ["foo"]
+      "default": ["Salt", "Pepper", "Olive Oil", "Pecorino"]
     }
   },
-  "additionalProperties": false
+  "required": ["type"]
 }

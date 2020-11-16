@@ -1,5 +1,4 @@
 export default {
-  list: ['bar'],
-  number: 42,
-  string: 'bar'
+  cookingTime: 200,
+  seasoning: ['Salt', 'Pepper', 'Tomato Sauce']
 }

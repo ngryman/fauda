@@ -13,23 +13,21 @@ describe('given environment variables', () => {
       args: [],
       cwd: '',
       env: {
-        FAUDA_LIST: 'bar',
-        FAUDA_NUMBER: '42',
-        FAUDA_STRING: 'bar',
+        PASTA_COOKING_TIME: '200',
+        PASTA_SEASONING: "['Salt', 'Pepper', 'Tomato Sauce']",
         NODE_ENV: 'development'
       },
-      namespace: 'fauda',
+      namespace: 'pasta',
       schema: await getSchema()
     }
     const configuration = await load(options)
     expect(configuration).toMatchInlineSnapshot(`
       Object {
-        "boolean": true,
-        "list": Array [
-          "bar",
+        "cookingTime": 200,
+        "seasoning": Array [
+          "['Salt', 'Pepper', 'Tomato Sauce']",
         ],
-        "number": 42,
-        "string": "bar",
+        "type": "Fettuccine",
       }
     `)
   })
@@ -38,7 +36,12 @@ describe('given environment variables', () => {
 describe('given command line arguments', () => {
   it('loads them mixed with defaults', async () => {
     const options = {
-      args: ['--list=bar', '--list=baz', '--number', '42', '--string', 'bar'],
+      args: [
+        '--cooking-time=200',
+        '--seasoning=Salt',
+        '--seasoning=Pepper',
+        "--seasoning='Tomato Sauce'"
+      ],
       cwd: '',
       env: {},
       schema: await getSchema()
@@ -46,13 +49,13 @@ describe('given command line arguments', () => {
     const config = await load(options)
     expect(config).toMatchInlineSnapshot(`
       Object {
-        "boolean": true,
-        "list": Array [
-          "bar",
-          "baz",
+        "cookingTime": 200,
+        "seasoning": Array [
+          "Salt",
+          "Pepper",
+          "'Tomato Sauce'",
         ],
-        "number": 42,
-        "string": "bar",
+        "type": "Fettuccine",
       }
     `)
   })
@@ -72,12 +75,13 @@ describe('given a configuration file', () => {
       })
       expect(config).toMatchInlineSnapshot(`
         Object {
-          "boolean": true,
-          "list": Array [
-            "bar",
+          "cookingTime": 200,
+          "seasoning": Array [
+            "Salt",
+            "Pepper",
+            "Tomato Sauce",
           ],
-          "number": 42,
-          "string": "bar",
+          "type": "Fettuccine",
         }
       `)
     } catch (err) {
