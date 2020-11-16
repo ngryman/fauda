@@ -10,8 +10,8 @@ import { parseArray } from './utils'
  *
  * @example
  *
- * GRAPH0_SERVER_PORT=1337
- * GRAPH0_DIRECTIVES="['@graph0/directives', './directives']"
+ * PASTA_COOKING_TIME=200
+ * PASTA_TYPES="['Fettuccine', 'Tagliatelle']"
  */
 export function loadFromEnv(
   namespace: string,

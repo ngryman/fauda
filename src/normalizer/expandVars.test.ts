@@ -1,6 +1,7 @@
+import { JsonObject } from 'type-fest'
 import { expandVars } from './expandVars'
 
-const TEST_CASES: [string, NodeJS.ProcessEnv, {}, {}][] = [
+const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject, JsonObject][] = [
   [
     'expand an existing env var to its value',
     { BAR: 'bar' },

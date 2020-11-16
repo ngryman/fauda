@@ -46,7 +46,8 @@ test('throw an error for invalid values', async () => {
   await expect(async () =>
     validate({ cookingTime: 'nope', seasoning: {} }, await getSchema())
   ).rejects.toThrowErrorMatchingInlineSnapshot(`
-    ".cookingTime should be number
-    .seasoning should be array"
-  `)
+          "validate: Validation failed
+          .cookingTime should be number
+          .seasoning should be array"
+        `)
 })

@@ -1,6 +1,7 @@
+import { JsonObject } from 'type-fest'
 import { loadFromArgs } from './loadArgs'
 
-const TEST_CASES: [string, string[], {}][] = [
+const TEST_CASES: [string, string[], JsonObject][] = [
   ['camelCase a flag', ['--foo-bar'], { fooBar: true }],
   ['accept a value as option', ['--foo=bar'], { foo: 'bar' }],
   ['accept a value as flags', ['--foo', 'bar'], { foo: 'bar' }],

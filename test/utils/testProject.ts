@@ -11,7 +11,7 @@ export class TestProject {
     this.rootDir = path.join(FIXTURES_ROOT, snakeCase(variant))
   }
 
-  async setup() {
+  async setup(): Promise<void> {
     const { rootDir, variant } = this
     const variantDir = path.dirname(variant)
     const ext = path.extname(variant) || '.json'
@@ -29,7 +29,7 @@ export class TestProject {
     } catch (e) {}
   }
 
-  async teardown() {
+  async teardown(): Promise<void> {
     const { rootDir } = this
     await fs.rmdir(path.join(rootDir), { recursive: true })
   }

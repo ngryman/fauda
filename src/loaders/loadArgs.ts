@@ -1,6 +1,7 @@
-import { camelCase, chain } from 'lodash'
 import getopts from 'getopts'
+import { camelCase, chain } from 'lodash'
 import { parseArray } from './utils'
+import { JsonObject } from 'type-fest'
 
 /**
  * Loads configuration from command line arguments.
@@ -8,14 +9,15 @@ import { parseArray } from './utils'
  * Arguments name describe a path to the desired options using `-` as
  * separator.
  *
- * @see https://github.com/jorgebucaran/getopts
  * @example
- *
- * --server-port=1337
- * --directives="['@graph0/directives', './directives']"
- * --directives=@graph0/directives --directives=./directives
+ * ```
+ * $ --cooking-time=200
+ * $ --types="['Fettuccine', 'Tagliatelle']"
+ * $ --directives=Fettuccine --directives=Tagliatelle
+ * ```
+ * @see https://github.com/jorgebucaran/getopts
  */
-export function loadFromArgs(args: string[]): {} {
+export function loadFromArgs(args: string[]): JsonObject {
   return chain(getopts(args))
     .omit('_')
     .mapKeys((_v, k) => camelCase(k))

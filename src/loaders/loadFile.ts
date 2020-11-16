@@ -1,10 +1,11 @@
-import { cosmiconfig, Options as CosmiconfigOptions } from 'cosmiconfig'
 import loadTs from '@endemolshinegroup/cosmiconfig-typescript-loader'
+import { cosmiconfig, Options as CosmiconfigOptions } from 'cosmiconfig'
+import { JsonObject } from 'type-fest'
 
 /**
  * @internal
  */
-export function getDefaultSearchPlaces(namespace: string) {
+export function getDefaultSearchPlaces(namespace: string): string[] {
   return [
     'package.json',
     `.${namespace}rc`,
