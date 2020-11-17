@@ -24,8 +24,6 @@ export function getDefaultSearchPlaces(namespace: string): string[] {
 }
 
 /**
- * Loads configuration from a file.
- *
  * @see https://github.com/davidtheclark/cosmiconfig
  */
 export async function loadFromFile(

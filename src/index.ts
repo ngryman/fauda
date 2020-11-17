@@ -1,2 +1,2 @@
-export { load as fauda } from './loader'
+export { fauda } from './fauda'
 export default fauda
