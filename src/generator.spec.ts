@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { generateTypes, generateTypesFromFile } from './generator'
+import { generateTypes } from './generator'
 
 async function getSchema() {
   return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
@@ -65,7 +65,7 @@ describe('given a schema object', () => {
 
 describe('given a schema file', () => {
   it('generate the associated types', async () => {
-    const source = await generateTypesFromFile('test/fixtures/schema.json')
+    const source = await generateTypes('test/fixtures/schema.json')
     expect(source).toMatchInlineSnapshot(`
       "export interface Configuration {
         /**
@@ -90,7 +90,7 @@ describe('given a schema file', () => {
   })
 
   it('accepts Prettier options to format the output', async () => {
-    const source = await generateTypesFromFile('test/fixtures/schema.json', {
+    const source = await generateTypes('test/fixtures/schema.json', {
       style: {
         semi: false
       }

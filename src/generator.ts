@@ -1,5 +1,5 @@
 import { compile, compileFromFile, Options } from 'json-schema-to-typescript'
-import { flow } from 'lodash'
+import { flow, isObject } from 'lodash'
 import { JsonObject } from 'type-fest'
 
 /**
@@ -34,17 +34,11 @@ function postProcess(source: string) {
 }
 
 export async function generateTypes(
-  schema: JsonObject,
+  schema: string | JsonObject,
   options: Partial<Options> = {}
 ): Promise<string> {
   const mergedOptions = { ...defaultOptions, ...options }
-  return await compile(schema, '', mergedOptions).then(postProcess)
-}
-
-export async function generateTypesFromFile(
-  schemaPath: string,
-  options: Partial<Options> = {}
-): Promise<string> {
-  const mergedOptions = { ...defaultOptions, ...options }
-  return await compileFromFile(schemaPath, mergedOptions).then(postProcess)
+  return isObject(schema)
+    ? await compile(schema, '', mergedOptions).then(postProcess)
+    : await compileFromFile(schema, mergedOptions).then(postProcess)
 }
