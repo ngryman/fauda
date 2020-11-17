@@ -220,8 +220,32 @@ $ PASTA_TYPES="['Fettuccine', 'Tagliatelle']"
 
 </details>
 
+## API
+
+### [fauda](src/loader.ts#45)
+
+Load, normalize, and return a configuration object from multiple sources.
+
+**Params**
+
+- **namespace** `string`: String used to prefix environment variables and namespace your configuration in the `package.json`. It's typically your package's name.
+- **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration and generate types.
+- **options** `Partial<FaudaOptions>`: See availabble [options](#options).
+
+### [FaudaOptions](src/types.ts#1)
+
+args: string[]
+env: NodeJS.ProcessEnv
+cwd: string
+
+| Option | Type                | Default         | Description                                                                    |
+| ------ | ------------------- | --------------- | ------------------------------------------------------------------------------ |
+| `args` | `string[]`          | `process.argv`  | Array of command-line arguments, used by the command-line arguments loader.    |
+| `env`  | `NodeJS.ProcessEnv` | `process.env`   | Dictionary of environment variables, used by the environment variables loader. |
+| `cwd`  | `string`            | `process.cwd()` | Array of command-line arguments, used by the configuration files loader.       |
+
 ## FAQ
 
 ### Why not supporting nested options?
 
-Fauda only supports a flat options object, simply because it's easier to manipulate and to reason about. Nested options are usually neither a good idea as it makes merging default options harder, nor necessary as one can express a sense of hierarchy using "dotted names" instead (eg. `cooking.time`) or just camel case (eg. `cookingTime`).
+Fauda only supports a flat options object, simply because it's easier to manipulate and to reason about. In my opinion, nested options are usually neither a good idea as it makes merging default options harder, nor necessary as one can express a sense of hierarchy using "dotted names" instead (eg. `cooking.time`) or just camel case (eg. `cookingTime`).
