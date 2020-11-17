@@ -244,6 +244,15 @@ cwd: string
 | `env`  | `NodeJS.ProcessEnv` | `process.env`   | Dictionary of environment variables, used by the environment variables loader. |
 | `cwd`  | `string`            | `process.cwd()` | Array of command-line arguments, used by the configuration files loader.       |
 
+### [generateTypes](src/generator.ts#36)
+
+Return the `Configuration` type definition inferred from the passed JSON schema.
+
+**Params**
+
+- **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to generate the `Configuration ` type.
+- **options** `Partial<Options>`: See available [options of `json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript#options).
+
 ## FAQ
 
 ### Why not supporting nested options?
