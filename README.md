@@ -126,15 +126,15 @@ async function loadConfiguration() {
 
 ## How does it work?
 
-Fauda loads your configuration from several sources using the following order of precedence: `environment variables > command-line arguments > configuration files`. Option names are inflected according the source's typical naming convention.
+Fauda loads your configuration from several sources using the following order of precedence: `environment variables > command-line arguments > configuration files`.
 
-For instance, asuming your package is named `pasta`, here's of how the `cookingTime` option name would be transposed for each source:
+Option names are inflected according the source's typical naming convention:
 
-| Source                | Name                 |
-| --------------------- | -------------------- |
-| Configuration file    | `cookingTime`        |
-| Command-line argument | `--cooking-time`     |
-| Environment variable  | `PASTA_COOKING_TIME` |
+| Source                | Casing        | Example              |
+| --------------------- | ------------- | -------------------- |
+| Configuration file    | `camel`       | `cookingTime`        |
+| Command-line argument | `kebab`       | `--cooking-time`     |
+| Environment variable  | `upper+snake` | `PASTA_COOKING_TIME` |
 
 Once your configuration loaded, it is normalized into a valid configuration object that your library / application can use safely. The normalization process validates your configuration using the provided JSON schema. It checks that the type of options are valid, required options are specified, sets default values, and also expand environment variables that are referenced!
 
@@ -157,9 +157,9 @@ Here's an example of an option referencing a environment variable:
 
 ### Configuration files
 
-Fauda first tries to find a `config.${myPackage}` property in your `package.json` file.
+Fauda first tries to find a `config.${myPackage}` property in the `package.json` of your users.
 
-Then it searches for a configuration file starting from the current directory up to the root.
+It then searches for a configuration file starting from the current directory up to the root.
 
 Several configuration file names and formats are supported:
 
@@ -229,7 +229,7 @@ Load, normalize, and return a configuration object from multiple sources.
 **Params**
 
 - **namespace** `string`: String used to prefix environment variables and namespace your configuration in the `package.json`. It's typically your package's name.
-- **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration and generate types.
+- **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration.
 - **options** `Partial<FaudaOptions>`: See availabble [options](#options).
 
 ### [FaudaOptions](src/types.ts#1)
