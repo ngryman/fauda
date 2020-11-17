@@ -38,11 +38,7 @@ async function loadFromAll(
   return mergedConfig
 }
 
-/**
- * Loads configuration, from environment variables, command-line arguments,
- * and configuration files.
- */
-export async function load<Configuration>(
+export async function fauda<Configuration>(
   namespace: string,
   schema: string | JsonObject,
   options: Partial<FaudaOptions> = {}

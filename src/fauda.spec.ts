@@ -1,5 +1,5 @@
 import { TestProject } from '../test/utils/testProject'
-import { load } from './loader'
+import { fauda } from './fauda'
 import { FaudaOptions } from './types'
 
 describe('given a JSON schema', () => {
@@ -13,7 +13,7 @@ describe('given a JSON schema', () => {
         NODE_ENV: 'development'
       }
     }
-    const configuration = await load(
+    const configuration = await fauda(
       'pasta',
       'test/fixtures/schema.json',
       options
@@ -40,7 +40,7 @@ describe('given a JSON schema', () => {
       cwd: '',
       env: {}
     }
-    const config = await load('pasta', 'test/fixtures/schema.json', options)
+    const config = await fauda('pasta', 'test/fixtures/schema.json', options)
     expect(config).toMatchInlineSnapshot(`
       Object {
         "cookingTime": 200,
@@ -63,7 +63,7 @@ describe('given a JSON schema', () => {
         cwd: testProject.rootDir,
         env: {}
       }
-      const config = await load('pasta', 'test/fixtures/schema.json', options)
+      const config = await fauda('pasta', 'test/fixtures/schema.json', options)
       expect(config).toMatchInlineSnapshot(`
         Object {
           "cookingTime": 200,
@@ -83,7 +83,7 @@ describe('given a JSON schema', () => {
 
 describe('given invalid arguments', () => {
   it('throws an error if the schema does not exists', async () => {
-    await expect(() => load('pasta', '/the/void')).rejects
+    await expect(() => fauda('pasta', '/the/void')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
         "load: Error loading schema
         ENOENT: no such file or directory, open '/the/void'"
