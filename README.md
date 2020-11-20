@@ -16,6 +16,7 @@
   <a href="#how-does-it-work">How does it work?</a> •
   <a href="#usage">Usage</a> •
   <a href="#api">API</a> •
+  <a href="#cli">CLI</a> •
   <a href="#faq">FAQ</a>
 </p>
 
@@ -45,60 +46,69 @@ npm install fauda
 <details>
 <summary><b>2️⃣ Set up</b> your JSON schema</summary><br>
 
-Fauda relies on a [JSON schema](https://json-schema.org/) to load and validate your configuration, but also to generate types.
-
-For more information please take a look at TODO.
+Create a `schema.json` file:
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "title": "My awesome pasta app configuration",
+  "title": "My awesome app configuration",
   "type": "object",
   "properties": {
     "$schema": {
-      "description": "Path to my pasta app's schema.",
+      "description": "Path to my app's schema.",
       "type": "string"
     },
-    "type": {
-      "description": "The type of pasta.",
-      "type": "string",
-      "enum": ["Fettuccine", "Tagliatelle"],
-      "default": "Fettuccine"
-    },
-    "cookingTime": {
-      "description": "Cooking time in seconds.",
+    "port": {
+      "description": "The port the server listens to.",
       "type": "number",
-      "default": 300
+      "default": 3000
     },
-    "seasoning": {
-      "description": "A list of seasoning ingredients.",
+    "open": {
+      "description": "Open in a browser tab if true.",
+      "type": "boolean",
+      "default": false
+    },
+    "mode": {
+      "description": "Mode of the app.",
+      "type": "string",
+      "enum": ["development", "production"],
+      "default": "${NODE_ENV}"
+    },
+    "publicPages": {
+      "description": "A list of public pages.",
       "type": "array",
       "items": {
         "type": "string"
-      },
-      "default": ["Salt", "Pepper", "Olive Oil", "Pecorino"]
+      }
     }
   },
-  "required": ["type"]
+  "required": ["publicPages"]
 }
 ```
+
+Fauda relies on a [JSON schema](https://json-schema.org/) to load and validate your configuration, but also to generate types.
+
+For more information on how to creat this schema, please take a look at the [Getting Started](https://json-schema.org/learn/getting-started-step-by-step.html) guide.
 
 </details>
 
 <details>
 <summary><b>3️⃣ Generate</b> Typescript typings <i>optional</i></summary><br>
 
+Generate a `src/configuration.ts` file:
+
 ```sh
 $ npx fauda types
 ```
 
-This will generate the `Configuration` type in `src/configuration.ts` by default.
+For more information, please take a look at [CLI](#cli).
 
 ```ts
 export interface Configuration {
-  type: 'Fettuccine' | 'Tagliatelle'
-  cookingTime?: number
-  seasoning?: string[]
+  port?: number
+  open?: boolean
+  mode?: 'development' | 'production'
+  publicPages: string[]
 }
 ```
 
@@ -107,15 +117,15 @@ export interface Configuration {
 <details>
 <summary><b>4️⃣ Load & validate</b> your configuration.</summary><br>
 
-Assuming your package is named `pasta`:
+Assuming your package is named `my-app`:
 
 ```ts
-import fauda from 'fauda'
+import { fauda } from 'fauda'
 import { Configuration } from './configuration'
 
 async function loadConfiguration() {
   try {
-    const configuration = await fauda<Configuration>('pasta')
+    const configuration = await fauda<Configuration>('my-app')
   } catch (err) {
     console.error(err.message)
   }
@@ -130,11 +140,11 @@ Fauda loads your configuration from several sources using the following order of
 
 Option names are inflected according the source's typical naming convention:
 
-| Source                | Casing        | Example              |
-| --------------------- | ------------- | -------------------- |
-| Configuration file    | `camel`       | `cookingTime`        |
-| Command-line argument | `kebab`       | `--cooking-time`     |
-| Environment variable  | `upper+snake` | `PASTA_COOKING_TIME` |
+| Source                | Casing        | Example               |
+| --------------------- | ------------- | --------------------- |
+| Configuration file    | `camel`       | `publicPages`         |
+| Command-line argument | `kebab`       | `--public-pages`      |
+| Environment variable  | `upper+snake` | `MY_APP_PUBLIC_PAGES` |
 
 Once your configuration loaded, it is normalized into a valid configuration object that your library / application can use safely. The normalization process validates your configuration using the provided JSON schema. It checks that the type of options are valid, required options are specified, sets default values, and also expand environment variables that are referenced!
 
@@ -147,7 +157,7 @@ Here's an example of an option referencing a environment variable:
 
 ```json
 {
-  "cookingTime": "${SOME_VAR}"
+  "mode": "${NODE_ENV}"
 }
 ```
 
@@ -157,7 +167,7 @@ Here's an example of an option referencing a environment variable:
 
 ### Configuration files
 
-Fauda first tries to find a `config.${myPackage}` property in the `package.json` of your users.
+Fauda first tries to find a `config.${myApp}` property in the `package.json` of your users.
 
 It then searches for a configuration file starting from the current directory up to the root.
 
@@ -182,7 +192,7 @@ Several configuration file names and formats are supported:
 
 Fauda parses command-line arguments as you can expect from any other argument parsers!
 
-Options are "kebab-"cased. For instance, the `cookingTime` option is transposed as the `--cooking-time` command-line argument.
+Options are "kebab-"cased. For instance, the `publicPages` option is transposed as the `--public-pages` command-line argument.
 
 <details>
 <summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
@@ -195,8 +205,8 @@ Arrays are supported in two ways.
 Here's an example that gives the same result:
 
 ```sh
-$ pasta --types=Fettuccine --types=Fettuccine
-$ pasta --types="['Fettuccine', 'Tagliatelle']"
+$ my-app --public-pages=/home --public-pages=/about
+$ my-app --types="['/home', '/about']"
 ```
 
 </details>
@@ -205,7 +215,7 @@ $ pasta --types="['Fettuccine', 'Tagliatelle']"
 
 Fauda parses environment variables prefixed with your package's name. This is precaution to avoid name clashes with other application or system-wide environment variables.
 
-For instance, if your package's name is `pasta`, then Fauda will parse variables starting with `PASTA_`.
+For instance, if your package's name is `my-app`, Fauda will parse variables with the `MY_APP_` prefix.
 
 <details>
 <summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
@@ -215,7 +225,7 @@ Arrays are supported! You simply need to declare a JSON-compatible array wrapped
 Here's an example:
 
 ```sh
-$ PASTA_TYPES="['Fettuccine', 'Tagliatelle']"
+$ MY_APP_PUBLIC_PAGES="['/home', '/about']"
 ```
 
 </details>
@@ -233,10 +243,6 @@ Load, normalize, and return a configuration object from multiple sources.
 - **options** `Partial<FaudaOptions>`: See availabble [options](#options).
 
 ### [FaudaOptions](src/types.ts#1)
-
-args: string[]
-env: NodeJS.ProcessEnv
-cwd: string
 
 | Option | Type                | Default         | Description                                                                    |
 | ------ | ------------------- | --------------- | ------------------------------------------------------------------------------ |
