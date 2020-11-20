@@ -1,8 +1,9 @@
 {
   "config": {
-    "pasta": {
-      "cookingTime": 200,
-      "seasoning": ["Salt", "Pepper", "Tomato Sauce"]
+    "my-app": {
+      "port": 8080,
+      "open": true,
+      "publicPages": ["/home", "/about"]
     }
   }
 }

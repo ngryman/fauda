@@ -2,7 +2,9 @@ import { promises as fs } from 'fs'
 import { generateTypes } from './generator'
 
 async function getSchema() {
-  return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
+  return JSON.parse(
+    await fs.readFile('test/fixtures/required-schema.json', 'utf8')
+  )
 }
 
 describe('given a schema object', () => {
@@ -12,21 +14,25 @@ describe('given a schema object', () => {
     expect(source).toMatchInlineSnapshot(`
       "export interface Configuration {
         /**
-         * Path to my pasta app's schema.
+         * Path to my app's schema.
          */
         $schema?: string;
         /**
-         * The type of pasta.
+         * The port the server listens to.
          */
-        type: \\"Fettuccine\\" | \\"Tagliatelle\\";
+        port?: number;
         /**
-         * Cooking time in seconds.
+         * Open in a browser tab if true.
          */
-        cookingTime?: number;
+        open?: boolean;
         /**
-         * A list of seasoning ingredients.
+         * Mode of the app.
          */
-        seasoning?: string[];
+        mode?: \\"development\\" | \\"test\\" | \\"production\\";
+        /**
+         * A list of public pages.
+         */
+        publicPages: string[];
       }
       "
     `)
@@ -42,21 +48,25 @@ describe('given a schema object', () => {
     expect(source).toMatchInlineSnapshot(`
       "export interface Configuration {
         /**
-         * Path to my pasta app's schema.
+         * Path to my app's schema.
          */
         $schema?: string
         /**
-         * The type of pasta.
+         * The port the server listens to.
          */
-        type: \\"Fettuccine\\" | \\"Tagliatelle\\"
+        port?: number
         /**
-         * Cooking time in seconds.
+         * Open in a browser tab if true.
          */
-        cookingTime?: number
+        open?: boolean
         /**
-         * A list of seasoning ingredients.
+         * Mode of the app.
          */
-        seasoning?: string[]
+        mode?: \\"development\\" | \\"test\\" | \\"production\\"
+        /**
+         * A list of public pages.
+         */
+        publicPages: string[]
       }
       "
     `)
@@ -69,21 +79,25 @@ describe('given a schema file', () => {
     expect(source).toMatchInlineSnapshot(`
       "export interface Configuration {
         /**
-         * Path to my pasta app's schema.
+         * Path to my app's schema.
          */
         $schema?: string;
         /**
-         * The type of pasta.
+         * The port the server listens to.
          */
-        type: \\"Fettuccine\\" | \\"Tagliatelle\\";
+        port?: number;
         /**
-         * Cooking time in seconds.
+         * Open in a browser tab if true.
          */
-        cookingTime?: number;
+        open?: boolean;
         /**
-         * A list of seasoning ingredients.
+         * Mode of the app.
          */
-        seasoning?: string[];
+        mode?: \\"development\\" | \\"test\\" | \\"production\\";
+        /**
+         * A list of public pages.
+         */
+        publicPages?: string[];
       }
       "
     `)
@@ -98,21 +112,25 @@ describe('given a schema file', () => {
     expect(source).toMatchInlineSnapshot(`
       "export interface Configuration {
         /**
-         * Path to my pasta app's schema.
+         * Path to my app's schema.
          */
         $schema?: string
         /**
-         * The type of pasta.
+         * The port the server listens to.
          */
-        type: \\"Fettuccine\\" | \\"Tagliatelle\\"
+        port?: number
         /**
-         * Cooking time in seconds.
+         * Open in a browser tab if true.
          */
-        cookingTime?: number
+        open?: boolean
         /**
-         * A list of seasoning ingredients.
+         * Mode of the app.
          */
-        seasoning?: string[]
+        mode?: \\"development\\" | \\"test\\" | \\"production\\"
+        /**
+         * A list of public pages.
+         */
+        publicPages?: string[]
       }
       "
     `)

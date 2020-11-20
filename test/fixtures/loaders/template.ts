@@ -1,4 +1,5 @@
 export default {
-  cookingTime: 200,
-  seasoning: ['Salt', 'Pepper', 'Tomato Sauce']
+  port: 8080,
+  open: true,
+  publicPages: ['/home', '/about']
 }

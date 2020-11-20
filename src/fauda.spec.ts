@@ -8,23 +8,25 @@ describe('given a JSON schema', () => {
       args: [],
       cwd: '',
       env: {
-        PASTA_COOKING_TIME: '200',
-        PASTA_SEASONING: "['Salt', 'Pepper', 'Tomato Sauce']",
+        MY_APP_PORT: '8080',
+        MY_APP_OPEN: 'true',
+        MY_APP_PUBLIC_PAGES: "['/home', '/about']",
         NODE_ENV: 'development'
       }
     }
     const configuration = await fauda(
-      'pasta',
+      'my-app',
       'test/fixtures/schema.json',
       options
     )
     expect(configuration).toMatchInlineSnapshot(`
       Object {
-        "cookingTime": 200,
-        "seasoning": Array [
-          "['Salt', 'Pepper', 'Tomato Sauce']",
+        "mode": "development",
+        "open": true,
+        "port": 8080,
+        "publicPages": Array [
+          "['/home', '/about']",
         ],
-        "type": "Fettuccine",
       }
     `)
   })
@@ -32,24 +34,26 @@ describe('given a JSON schema', () => {
   it('loads command-line arguments', async () => {
     const options: FaudaOptions = {
       args: [
-        '--cooking-time=200',
-        '--seasoning=Salt',
-        '--seasoning=Pepper',
-        "--seasoning='Tomato Sauce'"
+        '--port=8080',
+        '--open',
+        '--public-pages=/home',
+        '--public-pages=/about'
       ],
       cwd: '',
-      env: {}
+      env: {
+        NODE_ENV: 'development'
+      }
     }
-    const config = await fauda('pasta', 'test/fixtures/schema.json', options)
+    const config = await fauda('my-app', 'test/fixtures/schema.json', options)
     expect(config).toMatchInlineSnapshot(`
       Object {
-        "cookingTime": 200,
-        "seasoning": Array [
-          "Salt",
-          "Pepper",
-          "'Tomato Sauce'",
+        "mode": "development",
+        "open": true,
+        "port": 8080,
+        "publicPages": Array [
+          "/home",
+          "/about",
         ],
-        "type": "Fettuccine",
       }
     `)
   })
@@ -61,18 +65,20 @@ describe('given a JSON schema', () => {
       const options: FaudaOptions = {
         args: [],
         cwd: testProject.rootDir,
-        env: {}
+        env: {
+          NODE_ENV: 'development'
+        }
       }
-      const config = await fauda('pasta', 'test/fixtures/schema.json', options)
+      const config = await fauda('my-app', 'test/fixtures/schema.json', options)
       expect(config).toMatchInlineSnapshot(`
         Object {
-          "cookingTime": 200,
-          "seasoning": Array [
-            "Salt",
-            "Pepper",
-            "Tomato Sauce",
+          "mode": "development",
+          "open": true,
+          "port": 8080,
+          "publicPages": Array [
+            "/home",
+            "/about",
           ],
-          "type": "Fettuccine",
         }
       `)
     } finally {
@@ -83,7 +89,7 @@ describe('given a JSON schema', () => {
 
 describe('given invalid arguments', () => {
   it('throws an error if the schema does not exists', async () => {
-    await expect(() => fauda('pasta', '/the/void')).rejects
+    await expect(() => fauda('my-app', '/the/void')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
         "load: Error loading schema
         ENOENT: no such file or directory, open '/the/void'"

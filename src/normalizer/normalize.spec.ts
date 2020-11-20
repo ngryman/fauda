@@ -7,53 +7,34 @@ async function getSchema() {
 
 describe('given configuration', () => {
   it('merges default configuration', async () => {
-    expect(normalize({ cookingTime: 200 }, await getSchema(), process.env))
+    expect(normalize({}, await getSchema(), process.env))
       .toMatchInlineSnapshot(`
       Object {
-        "cookingTime": 200,
-        "seasoning": Array [
-          "Salt",
-          "Pepper",
-          "Olive Oil",
-          "Pecorino",
+        "mode": "test",
+        "open": false,
+        "port": 3000,
+        "publicPages": Array [
+          "/hi",
         ],
-        "type": "Fettuccine",
       }
     `)
   })
 
   it('expands environment variables', async () => {
     expect(
-      normalize({ cookingTime: '${NUMBER}' }, await getSchema(), {
-        NUMBER: '200'
+      normalize({ port: '${PORT}' }, await getSchema(), {
+        ...process.env,
+        PORT: '8080'
       })
-    ).toMatchObject({ cookingTime: 200 })
+    ).toMatchObject({ port: 8080 })
   })
 
   it('throws an error for invalid values', async () => {
     await expect(async () =>
-      normalize({ cookingTime: 'nope' }, await getSchema(), process.env)
+      normalize({ port: 'nope' }, await getSchema(), process.env)
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
             "validate: Validation failed
-            .cookingTime should be number"
+            .port should be number"
           `)
-  })
-})
-
-describe('given empty configuration', () => {
-  it('returns the default configuration', async () => {
-    expect(normalize({}, await getSchema(), process.env))
-      .toMatchInlineSnapshot(`
-      Object {
-        "cookingTime": 300,
-        "seasoning": Array [
-          "Salt",
-          "Pepper",
-          "Olive Oil",
-          "Pecorino",
-        ],
-        "type": "Fettuccine",
-      }
-    `)
   })
 })

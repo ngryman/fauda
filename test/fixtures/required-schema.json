@@ -28,8 +28,8 @@
       "type": "array",
       "items": {
         "type": "string"
-      },
-      "default": ["/hi"]
+      }
     }
-  }
+  },
+  "required": ["publicPages"]
 }

@@ -1,53 +1,49 @@
 import { promises as fs } from 'fs'
 import { validate } from './validate'
 
-async function getSchema() {
-  return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
+async function getSchema(name = 'schema') {
+  return JSON.parse(await fs.readFile(`test/fixtures/${name}.json`, 'utf8'))
 }
 
 test('set default values to missing properties', async () => {
-  expect(validate({}, await getSchema())).toMatchInlineSnapshot(`
+  expect(validate({}, await getSchema(), process.env)).toMatchInlineSnapshot(`
     Object {
-      "cookingTime": 300,
-      "seasoning": Array [
-        "Salt",
-        "Pepper",
-        "Olive Oil",
-        "Pecorino",
+      "mode": "test",
+      "open": false,
+      "port": 3000,
+      "publicPages": Array [
+        "/hi",
       ],
-      "type": "Fettuccine",
     }
   `)
 })
 
 test('coerce a string to number when the type is a number', async () => {
   expect(
-    validate(
-      {
-        cookingTime: '200'
-      },
-      await getSchema()
-    )
-  ).toMatchObject({ cookingTime: 200 })
+    validate({ port: '8080' }, await getSchema(), process.env)
+  ).toMatchObject({ port: 8080 })
 })
 
 test('coerce a string to an array when the type is an array', async () => {
   expect(
-    validate(
-      {
-        seasoning: 'Salt'
-      },
-      await getSchema()
-    )
-  ).toMatchObject({ seasoning: ['Salt'] })
+    validate({ publicPages: '/home' }, await getSchema(), process.env)
+  ).toMatchObject({ publicPages: ['/home'] })
 })
 
 test('throw an error for invalid values', async () => {
   await expect(async () =>
-    validate({ cookingTime: 'nope', seasoning: {} }, await getSchema())
+    validate({ port: 'nope' }, await getSchema(), process.env)
   ).rejects.toThrowErrorMatchingInlineSnapshot(`
-          "validate: Validation failed
-          .cookingTime should be number
-          .seasoning should be array"
-        `)
+    "validate: Validation failed
+    .port should be number"
+  `)
+})
+
+test('throw an error for missing values', async () => {
+  await expect(async () =>
+    validate({}, await getSchema('required-schema'), process.env)
+  ).rejects.toThrowErrorMatchingInlineSnapshot(`
+    "validate: Validation failed
+    should have required property 'publicPages'"
+  `)
 })
