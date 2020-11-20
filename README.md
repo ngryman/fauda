@@ -2,11 +2,11 @@
 <h4 align="center">Don't worry about configuration anymore.</h4>
 
 <p align="center">
-  <a href="https://zapier.slack.com/archives/CD4LXLTK5">
-    <img src="https://img.shields.io/badge/team-foundations-brightgreen?style=flat-square" />
+  <a href="https://www.npmjs.com/package/fauda">
+    <img src="https://img.shields.io/npm/v/fauda" />
   </a>
-  <a href="https://zapier.slack.com/archives/CD4LXLTK5">
-    <img src="https://img.shields.io/badge/maintained-yes-brightgreen?style=flat-square" />
+  <a href="https://github.com/ngryman/fauda/actions">
+    <img src="https://img.shields.io/github/workflow/status/ngryman/fauda/ci" />
   </a>
 </p>
 
