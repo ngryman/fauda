@@ -8,10 +8,10 @@ describe('given a JSON schema', () => {
       args: [],
       cwd: '',
       env: {
+        ...process.env,
         MY_APP_PORT: '8080',
         MY_APP_OPEN: 'true',
-        MY_APP_PUBLIC_PAGES: "['/home', '/about']",
-        NODE_ENV: 'development'
+        MY_APP_PUBLIC_PAGES: "['/home', '/about']"
       }
     }
     const configuration = await fauda(
@@ -21,7 +21,7 @@ describe('given a JSON schema', () => {
     )
     expect(configuration).toMatchInlineSnapshot(`
       Object {
-        "mode": "development",
+        "mode": "test",
         "open": true,
         "port": 8080,
         "publicPages": Array [
@@ -40,14 +40,12 @@ describe('given a JSON schema', () => {
         '--public-pages=/about'
       ],
       cwd: '',
-      env: {
-        NODE_ENV: 'development'
-      }
+      env: process.env
     }
     const config = await fauda('my-app', 'test/fixtures/schema.json', options)
     expect(config).toMatchInlineSnapshot(`
       Object {
-        "mode": "development",
+        "mode": "test",
         "open": true,
         "port": 8080,
         "publicPages": Array [
@@ -65,14 +63,12 @@ describe('given a JSON schema', () => {
       const options: FaudaOptions = {
         args: [],
         cwd: testProject.rootDir,
-        env: {
-          NODE_ENV: 'development'
-        }
+        env: process.env
       }
       const config = await fauda('my-app', 'test/fixtures/schema.json', options)
       expect(config).toMatchInlineSnapshot(`
         Object {
-          "mode": "development",
+          "mode": "test",
           "open": true,
           "port": 8080,
           "publicPages": Array [
