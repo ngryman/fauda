@@ -232,7 +232,7 @@ $ MY_APP_PUBLIC_PAGES="['/home', '/about']"
 
 ## API
 
-### [fauda](src/loader.ts#45)
+### [fauda](src/fauda.ts)
 
 Load, normalize, and return a configuration object from multiple sources.
 
@@ -242,7 +242,7 @@ Load, normalize, and return a configuration object from multiple sources.
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration.
 - **options** `Partial<FaudaOptions>`: See availabble [options](#options).
 
-### [FaudaOptions](src/types.ts#1)
+### [FaudaOptions](src/types.ts)
 
 | Option | Type                | Default         | Description                                                                    |
 | ------ | ------------------- | --------------- | ------------------------------------------------------------------------------ |
@@ -250,7 +250,7 @@ Load, normalize, and return a configuration object from multiple sources.
 | `env`  | `NodeJS.ProcessEnv` | `process.env`   | Dictionary of environment variables, used by the environment variables loader. |
 | `cwd`  | `string`            | `process.cwd()` | Array of command-line arguments, used by the configuration files loader.       |
 
-### [generateTypes](src/generator.ts#36)
+### [generateTypes](src/generator.ts)
 
 Return the `Configuration` type definition inferred from the passed JSON schema.
 
