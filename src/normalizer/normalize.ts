@@ -10,6 +10,6 @@ export function normalize<Configuration>(
 ): Configuration {
   return flow(
     _ => expandVars(_, env),
-    _ => validate<Configuration>(_, schema)
+    _ => validate<Configuration>(_, schema, env)
   )(config)
 }

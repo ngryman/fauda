@@ -27,6 +27,12 @@ const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject, JsonObject][] = [
     { foo: ['bar', 'bar'] }
   ],
   [
+    'expand a nested value',
+    { BAZ: 'baz' },
+    { foo: { bar: '${BAZ}' } },
+    { foo: { bar: 'baz' } }
+  ],
+  [
     'do not expand if $ is escaped',
     { BAR: 'bar' },
     { foo: '\\${BAR}' },

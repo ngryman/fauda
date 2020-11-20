@@ -1,6 +1,7 @@
 import Ajv from 'ajv'
-import { chain } from 'lodash'
+import { chain, flow } from 'lodash'
 import { JsonObject } from 'type-fest'
+import { expandVars } from './expandVars'
 
 function createError(errors: Ajv.ErrorObject[]): Error {
   const message = chain(errors)
@@ -15,7 +16,8 @@ function createError(errors: Ajv.ErrorObject[]): Error {
  */
 export function validate<Configuration>(
   input: JsonObject,
-  schema: JsonObject
+  schema: JsonObject,
+  env: NodeJS.ProcessEnv
 ): Configuration {
   const ajv = new Ajv({
     allErrors: true,
@@ -26,7 +28,11 @@ export function validate<Configuration>(
   })
 
   const output = { ...input }
-  const isValid = ajv.validate(schema, output)
+
+  const isValid = flow(
+    _ => expandVars(_, env),
+    _ => ajv.validate(_, output)
+  )(schema)
 
   if (!isValid) {
     throw ajv.errors
