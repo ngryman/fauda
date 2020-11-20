@@ -5,7 +5,7 @@ import { expandVars } from './expandVars'
 
 function createError(errors: Ajv.ErrorObject[]): Error {
   const message = chain(errors)
-    .map(err => `${err.dataPath} ${err.message}`)
+    .map(err => (err.dataPath ? `${err.dataPath} ${err.message}` : err.message))
     .join('\n')
     .value()
   return new Error(`validate: Validation failed\n${message}`)
