@@ -93,7 +93,7 @@ For more information on how to creat this schema, please take a look at the [Get
 </details>
 
 <details>
-<summary><b>3️⃣ Generate</b> Typescript typings <i>optional</i></summary><br>
+<summary><b>3️⃣ Generate</b> types <i>(optional)</i></summary><br>
 
 Generate a `src/configuration.ts` file:
 
