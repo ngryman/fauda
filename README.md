@@ -240,7 +240,15 @@ Load, normalize, and return a configuration object from multiple sources.
 
 - **namespace** `string`: String used to prefix environment variables and namespace your configuration in the `package.json`. It's typically your package's name.
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration.
-- **options** `Partial<FaudaOptions>`: See availabble [options](#options).
+- **options?** `Partial<FaudaOptions>`: See availabble [options](#options).
+
+**Examples**
+
+```ts
+import { fauda } from 'fauda'
+
+const configuration = await fauda('my-app', 'schema.json')
+```
 
 ### [FaudaOptions](src/types.ts)
 
@@ -258,6 +266,16 @@ Return the `Configuration` type definition inferred from the passed JSON schema.
 
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to generate the `Configuration ` type.
 - **options** `Partial<Options>`: See available [options of `json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript#options).
+
+**Examples**
+
+```ts
+import { promise as fs } from 'fs'
+import { generateTypes } from 'fauda'
+
+const source = await generateTypes('schema.json')
+await fs.writeFile('src/configuration.ts', source)
+```
 
 ## CLI
 
