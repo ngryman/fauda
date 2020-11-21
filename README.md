@@ -22,7 +22,10 @@
 
 ---
 
-Fauda **loads** and **normalizes** your configuration from multiple sources at the same time, giving flexibility to the users of your library / application to configure it in various ways.
+Fauda does two things for you:
+
+1. It **loads** your configuration from files, command-line options, and environment variables; giving flexibility to adapt to your users' workflow.
+2. It **validates** your configuration using a JSON schema, applying defaults when avaialble; abstracting the hard things for you providing auto-completion to your users.
 
 ## Features
 
