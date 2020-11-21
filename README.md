@@ -259,6 +259,55 @@ Return the `Configuration` type definition inferred from the passed JSON schema.
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to generate the `Configuration ` type.
 - **options** `Partial<Options>`: See available [options of `json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript#options).
 
+## CLI
+
+### Generate types
+
+Fauda comes with a CLI utility that automatically generates types from your JSON schema. This is especially useful to provide a strongly typed configuration object to your Typescript project, but also to provide auto-completion for your users using a `.ts` configuration file.
+
+By default, the `types` command will read a `schema.json` file and write the output to a `src/configuration.ts` file:
+
+You can change these defaults with the following CLI options:
+
+- **--input, -i**: Path to a JSON schema file.
+- **--output, -o**: Path to the output Typescript file.
+
+**Examples**
+
+```sh
+$ fauda types
+$ fauda types -i my-schema.json -o src/types/configuration.ts
+```
+
+<details>
+<summary>🙋🏻‍♂️ <i>How can I integrate this in my workflow?</i></summary><br>
+
+Typescript projects generally have a `build` script to transpile sources to plain JavaScript. You can generate your types right before using with the `prebuild` script:
+
+```json
+{
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "fauda types"
+  }
+}
+```
+
+Usually you will also want to watch for changes to your schema and reflect these changes in the generated types to benefit from your IDE's automcompletion.
+
+Assuming you have `dev` script that watches for changes, you could split your scripts to transpile your code and generate your types
+
+Assuming your project has `build` script, you can create a dedicated `build:config:types` script to generate your types:
+Arrays are supported! You simply need to declare a JSON-compatible array wrapped between quotes.
+
+Here's an example:
+
+```sh
+$ MY_APP_PUBLIC_PAGES="['/home', '/about']"
+```
+
+</details>
+
 ## FAQ
 
 ### Why not supporting nested options?
