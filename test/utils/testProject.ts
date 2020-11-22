@@ -2,13 +2,13 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import { snakeCase } from 'lodash'
 
-const FIXTURES_ROOT = path.join(__dirname, '../../test/fixtures/loaders')
+const TEMPLATES_ROOT = path.join(__dirname, '../../test/fixtures/templates')
 
 export class TestProject {
   public readonly rootDir: string
 
   constructor(public readonly variant: string = 'package.json') {
-    this.rootDir = path.join(FIXTURES_ROOT, snakeCase(variant))
+    this.rootDir = path.join(TEMPLATES_ROOT, snakeCase(variant))
   }
 
   async setup(): Promise<void> {
@@ -23,7 +23,7 @@ export class TestProject {
       await fs.mkdir(path.join(rootDir, 'upward'))
       if (variantDir !== '.') await fs.mkdir(path.join(rootDir, variantDir))
       await fs.copyFile(
-        path.join(FIXTURES_ROOT, `${templateName}${ext}`),
+        path.join(TEMPLATES_ROOT, `${templateName}${ext}`),
         path.join(rootDir, variant)
       )
     } catch (e) {}
