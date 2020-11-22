@@ -1,5 +1,5 @@
 import { JsonObject } from 'type-fest'
-import { loadFromEnv } from './loadEnv'
+import { loadEnv } from './loadEnv'
 
 const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject][] = [
   [
@@ -17,5 +17,5 @@ const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject][] = [
 ]
 
 test.each(TEST_CASES)('%s', (_title, env, expected) => {
-  expect(loadFromEnv('my-app', env)).toEqual(expected)
+  expect(loadEnv('my-app', env)).toEqual(expected)
 })

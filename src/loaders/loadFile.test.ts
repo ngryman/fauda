@@ -1,5 +1,5 @@
 import { TestProject } from '../../test/utils/testProject'
-import { loadFromFile, getDefaultSearchPlaces } from './loadFile'
+import { loadFile, getDefaultSearchPlaces } from './loadFile'
 
 const SEARCH_PLACES = getDefaultSearchPlaces('my-app')
 
@@ -21,7 +21,7 @@ describe.each(SEARCH_PLACES)('given a %s file', variant => {
 
   test.each(TEST_CASES)('%s', async (_title, cwd) => {
     await expect(
-      loadFromFile('my-app', testProject.resolvePath(cwd))
+      loadFile('my-app', testProject.resolvePath(cwd))
     ).resolves.toEqual(EXPECTED)
   })
 

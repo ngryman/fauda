@@ -1,5 +1,5 @@
 import { JsonObject } from 'type-fest'
-import { loadFromArgs } from './loadArgs'
+import { loadArgs } from './loadArgs'
 
 const TEST_CASES: [string, string[], JsonObject][] = [
   ['camelCase a flag', ['--foo-bar'], { fooBar: true }],
@@ -19,5 +19,5 @@ const TEST_CASES: [string, string[], JsonObject][] = [
 ]
 
 test.each(TEST_CASES)('%s', (_title, args, expected) => {
-  expect(loadFromArgs(args)).toEqual(expected)
+  expect(loadArgs(args)).toEqual(expected)
 })

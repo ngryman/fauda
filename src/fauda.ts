@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import { isObject, merge, reduceRight } from 'lodash'
 import { JsonObject } from 'type-fest'
-import { loadFromArgs, loadFromEnv, loadFromFile } from './loaders'
+import { loadArgs, loadEnv, loadFile } from './loaders'
 import { normalize } from './normalizer'
 import { FaudaOptions } from './types'
 
@@ -30,9 +30,9 @@ async function loadFromAll(
   { args, cwd, env }: FaudaOptions
 ): Promise<JsonObject> {
   const resolvedConfig = await Promise.all([
-    loadFromEnv(namespace, env),
-    loadFromArgs(args),
-    loadFromFile(namespace, cwd)
+    loadEnv(namespace, env),
+    loadArgs(args),
+    loadFile(namespace, cwd)
   ])
   const mergedConfig = reduceRight(resolvedConfig, merge, {})
   return mergedConfig
