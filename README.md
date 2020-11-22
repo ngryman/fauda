@@ -1,4 +1,6 @@
-<h3 align="center">fauda</h3>
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/ngryman/artworks/master/fauda/heading/fauda@2x.png" alt="Fauda" with="600">
+</h1>
 <h4 align="center">Don't worry about configuration anymore.</h4>
 
 <p align="center">
