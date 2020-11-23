@@ -27,7 +27,7 @@
 Fauda does two things for you:
 
 1. It **loads** your configuration from files, command-line options, and environment variables; giving flexibility to adapt to your users' workflow.
-2. It **validates** your configuration using a JSON schema, applying defaults when avaialble; abstracting the hard things for you providing auto-completion to your users.
+2. It **validates** your configuration using a JSON schema, applying defaults when available; abstracting the hard things for you providing auto-completion to your users.
 
 ## Features
 
@@ -245,7 +245,7 @@ Load, normalize, and return a configuration object from multiple sources.
 
 - **namespace** `string`: String used to prefix environment variables and namespace your configuration in the `package.json`. It's typically your package's name.
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to normalize your configuration.
-- **options?** `Partial<FaudaOptions>`: See availabble [options](#options).
+- **options?** `Partial<FaudaOptions>`: See available [options](#options).
 
 **Examples**
 
