@@ -318,15 +318,16 @@ Typescript projects generally have a `build` script to transpile sources to plai
 
 Usually you will also want to watch for changes to your schema and reflect these changes in the generated types to benefit from your IDE's automcompletion.
 
-Assuming you have `dev` script that watches for changes, you could split your scripts to transpile your code and generate your types
+Assuming you have `dev` script that watches for changes, you could split your scripts to transpile your code and generate your types in two different scripts, and use a tool like [npm-run-all](https://www.npmjs.com/package/npm-run-all) to run them sequentially:
 
-Assuming your project has `build` script, you can create a dedicated `build:config:types` script to generate your types:
-Arrays are supported! You simply need to declare a JSON-compatible array wrapped between quotes.
-
-Here's an example:
-
-```sh
-$ MY_APP_PUBLIC_PAGES="['/home', '/about']"
+```json
+{
+  "scripts": {
+    "dev": "run-s dev:*",
+    "dev:types": "fauda types",
+    "dev:build": "tsc -w"
+  }
+}
 ```
 
 </details>
