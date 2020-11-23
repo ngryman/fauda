@@ -1,7 +1,7 @@
 <h1 align="center">
   <img src="https://raw.githubusercontent.com/ngryman/artworks/master/fauda/heading/fauda@2x.png" alt="Fauda" with="600">
 </h1>
-<h4 align="center">Don't worry about configuration anymore.</h4>
+<h4 align="center">Configuration made simple.</h4>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/fauda">
@@ -26,14 +26,14 @@
 
 Fauda does two things for you:
 
-1. It **loads** your configuration from files, command-line options, and environment variables; giving flexibility to adapt to your users' workflow.
+1. It **loads** your configuration from files, CLI options, and environment variables; giving flexibility to adapt to your users' workflow.
 2. It **validates** your configuration using a JSON schema, applying defaults when available; abstracting the hard things for you providing auto-completion to your users.
 
 ## Features
 
 - **One dependency** to load and validate your configuration.
-- **Load from multiple sources** such as JSON, YAML, JavaScript, Typescript, command-line arguments, and environment variables.
-- **Validate your configuration** with a JSON schema. BONUS: Your configuration files have auto-completion in VSCode!
+- **Load from multiple sources** such as JSON / YAML / JS / TS files, CLI options, and environment variables.
+- **Validate your configuration** with a JSON schema (bonus: auto-completion in VSCode!)
 - **Generate types** for your Typescript code and for Typescript configuration files.
 - **Expand environment variables** in any configuration value.
 
@@ -91,9 +91,7 @@ Create a `schema.json` file:
 }
 ```
 
-Fauda relies on a [JSON schema](https://json-schema.org/) to load and validate your configuration, but also to generate types.
-
-For more information on how to creat this schema, please take a look at the [Getting Started](https://json-schema.org/learn/getting-started-step-by-step.html) guide.
+Fauda uses a [JSON schema](https://json-schema.org/) to load and normalize your configuration. For more information on JSON schemas, you can take a look at their [Getting Started](https://json-schema.org/learn/getting-started-step-by-step.html) guide.
 
 </details>
 
@@ -106,7 +104,7 @@ Generate a `src/configuration.ts` file:
 $ npx fauda types
 ```
 
-For more information, please take a look at [CLI](#cli).
+This will generate the following file:
 
 ```ts
 export interface Configuration {
@@ -116,6 +114,10 @@ export interface Configuration {
   publicPages: string[]
 }
 ```
+
+Types will allow you manipulate a strongly typed configuration object in your code. As a bonus it also enables autocompletion for TS configuration files!
+
+For more information about generating types, please take a look at the [CLI](#cli) section.
 
 </details>
 
@@ -141,28 +143,39 @@ async function loadConfiguration() {
 
 ## How does it work?
 
-Fauda loads your configuration from several sources using the following order of precedence: `environment variables > command-line arguments > configuration files`.
+Fauda loads your configuration from several sources using the following order of precedence: `environment variables > CLI options > configuration files`.
 
 Option names are inflected according the source's typical naming convention:
 
-| Source                | Casing        | Example               |
-| --------------------- | ------------- | --------------------- |
-| Configuration file    | `camel`       | `publicPages`         |
-| Command-line argument | `kebab`       | `--public-pages`      |
-| Environment variable  | `upper+snake` | `MY_APP_PUBLIC_PAGES` |
+| Source               | Casing        | Example               |
+| -------------------- | ------------- | --------------------- |
+| Configuration file   | `camel`       | `publicPages`         |
+| CLI options          | `kebab`       | `--public-pages`      |
+| Environment variable | `upper+snake` | `MY_APP_PUBLIC_PAGES` |
 
-Once your configuration loaded, it is normalized into a valid configuration object that your library / application can use safely. The normalization process validates your configuration using the provided JSON schema. It checks that the type of options are valid, required options are specified, sets default values, and also expand environment variables that are referenced!
+Once your configuration is loaded, Fauda normalizes it into a valid configuration object that your library / application can use. The normalization process validates your configuration using the provided JSON schema. It checks that the type of options are valid, required options are specified, sets default values, and also expand environment variables references!
 
 <details>
 <summary>🙋🏻‍♂️ <i>What is environment variable expansion?</i></summary><br>
 
-You can reference an environment variable's name as your option's value. Fauda will replace it by the variable's value when loading the configuration.
+You can reference an environment variable name's as your option's value. Fauda will replace its value at runtime, giving you the opportunity to depend on any environment variable in your configuration.
 
-Here's an example of an option referencing a environment variable:
+For instance, if you have a `mode` option that varies depending on the `NODE_ENV`'s value, you can do it like this:
 
 ```json
-{
-  "mode": "${NODE_ENV}"
+"mode": {
+  "default": "${NODE_ENV}"
+}
+```
+
+Note that you can also reference environment variables in your JSON schema using the `default` value:
+
+```json
+"mode": {
+  "description": "Mode of the app.",
+  "type": "string",
+  "enum": ["development", "production"],
+  "default": "${NODE_ENV}"
 }
 ```
 
@@ -172,11 +185,9 @@ Here's an example of an option referencing a environment variable:
 
 ### Configuration files
 
-Fauda first tries to find a `config.${myApp}` property in the `package.json` of your users.
+Fauda first searches for a `config.${myApp}` property in the `package.json` file of your users. If not found, it then searches for a various configuration files, starting from the current directory up to the root.
 
-It then searches for a configuration file starting from the current directory up to the root.
-
-Several configuration file names and formats are supported:
+Here is a list of the configuration file names and formats that are supported:
 
 | File                               | Format |
 | ---------------------------------- | ------ |
@@ -193,11 +204,11 @@ Several configuration file names and formats are supported:
 | `.config/${myPackage}.config.yaml` | `yaml` |
 | `.config/\${myPackage}.config.yml` | `yaml` |
 
-### Command-line arguments
+### CLI options
 
-Fauda parses command-line arguments as you can expect from any other argument parsers!
+Fauda parses CLI options as you can expect from any other argument parsers!
 
-Options are "kebab-"cased. For instance, the `publicPages` option is transposed as the `--public-pages` command-line argument.
+Options are "kebab-"cased. For instance, the `publicPages` option is transposed as the `--public-pages` CLI argument.
 
 <details>
 <summary>🙋🏻‍♂️ <i>What about arrays?</i></summary><br>
@@ -259,9 +270,9 @@ const configuration = await fauda('my-app', 'schema.json')
 
 | Option | Type                | Default         | Description                                                                    |
 | ------ | ------------------- | --------------- | ------------------------------------------------------------------------------ |
-| `args` | `string[]`          | `process.argv`  | Array of command-line arguments, used by the command-line arguments loader.    |
+| `args` | `string[]`          | `process.argv`  | Array of CLI options, used by the CLI options loader.                          |
 | `env`  | `NodeJS.ProcessEnv` | `process.env`   | Dictionary of environment variables, used by the environment variables loader. |
-| `cwd`  | `string`            | `process.cwd()` | Array of command-line arguments, used by the configuration files loader.       |
+| `cwd`  | `string`            | `process.cwd()` | Array of CLI options, used by the configuration files loader.                  |
 
 ### [generateTypes](src/generator.ts)
 
