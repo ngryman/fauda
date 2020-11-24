@@ -2,11 +2,7 @@ import { JsonObject } from 'type-fest'
 import { loadEnv } from './loadEnv'
 
 const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject][] = [
-  [
-    'map name to camelcase without namespace',
-    { MY_APP_FOO: 'bar' },
-    { foo: 'bar' }
-  ],
+  ['remove namespace', { MY_APP_FOO: 'bar' }, { foo: 'bar' }],
   [
     'parse an array value',
     { MY_APP_FOO: '["bar", 1337]' },
