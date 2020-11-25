@@ -24,17 +24,20 @@
 
 ---
 
-Fauda does two things for you:
-
-1. It **loads** your configuration from files, CLI options, and environment variables; giving flexibility to adapt to your users' workflow.
-2. It **validates** your configuration using a JSON schema, applying defaults when available; abstracting the hard things for you providing auto-completion to your users.
-
 ## Features
 
-- **One dependency** to load and validate your configuration.
-- **Load from multiple sources** such as JSON / YAML / JS / TS files, CLI options, and environment variables.
-- **Validate your configuration** with a JSON schema (bonus: auto-completion in VSCode!)
-- **Generate types** for your Typescript code and for Typescript configuration files.
+Fauda does three things for you:
+
+1. It **loads** your configuration from multiple sources: files, CLI options, and environment variables; giving flexibility to any of your users' workflow.
+2. It **merges** all sources with the following order of precedence: `environment variables > CLI options > configuration files`.
+2. It **normalizes** your configuration using a JSON schema; abstracting the hard things for you and providing auto-completion to your users.
+
+Some other benefits that Fauda offers:
+
+- **One dependency** to load, merge and validate your configuration.
+- **One reliable source of truth** for your your configuration: a JSON schema.
+- **Support multiple file formats** out of the box such as JSON, YAML, JavaScript, and even Typescript!
+- **Generate types** for your Typescript code and configuration files (auto-complete in VSCode).
 - **Expand environment variables** in any configuration value.
 
 ## Getting Started
