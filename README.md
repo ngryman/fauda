@@ -35,7 +35,7 @@ Fauda does three things for you:
 Some other benefits that Fauda offers:
 
 - **One dependency** to load, merge and validate your configuration.
-- **One reliable source of truth** for your your configuration: a JSON schema.
+- **One reliable source of truth** as a JSON schema.
 - **Support multiple file formats** out of the box such as JSON, YAML, JavaScript, and even Typescript!
 - **Generate types** for your Typescript code and configuration files (auto-complete in VSCode).
 - **Expand environment variables** in any configuration value.
