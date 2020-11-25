@@ -26,19 +26,18 @@
 
 ## Features
 
-Fauda does three things for you:
+Fauda is an all-in-one library that:
 
-1. It **loads** your configuration from multiple sources: files, CLI options, and environment variables; giving flexibility to any of your users' workflow.
-2. It **merges** all sources with the following order of precedence: `environment variables > CLI options > configuration files`.
-2. It **normalizes** your configuration using a JSON schema; abstracting the hard things for you and providing auto-completion to your users.
+1. **loads** options from multiple sources: env vars, CLI options, and configuration files.
+2. **merges** them together in one unified configuration object.
+3. **normalizes** it by validating against a JSON schema and setting default values.
 
-Some other benefits that Fauda offers:
+It offers the following advantages:
 
-- **One dependency** to load, merge and validate your configuration.
-- **One reliable source of truth** as a JSON schema.
-- **Support multiple file formats** out of the box such as JSON, YAML, JavaScript, and even Typescript!
-- **Generate types** for your Typescript code and configuration files (auto-complete in VSCode).
-- **Expand environment variables** in any configuration value.
+- **Simple** - a single dependency to load, merge, and validate your configuration.
+- **Flexible** - multiple file formats support out of the box such as JSON, YAML, JavaScript, and even Typescript!
+- **Reliable** - a unique source of truth defined in a JSON schema.
+- **Typescript friendly** - generated typings for your code and configuration files (bonus: auto-completion in VSCode).
 
 ## Getting Started
 
@@ -54,7 +53,9 @@ npm install fauda
 <details>
 <summary><b>2️⃣ Set up</b> your JSON schema</summary><br>
 
-Create a `schema.json` file:
+Fauda uses a [JSON schema](https://json-schema.org/) to load and normalize your configuration.
+
+Create a schema.json file:
 
 ```json
 {
@@ -94,12 +95,14 @@ Create a `schema.json` file:
 }
 ```
 
-Fauda uses a [JSON schema](https://json-schema.org/) to load and normalize your configuration. For more information on JSON schemas, you can take a look at their [Getting Started](https://json-schema.org/learn/getting-started-step-by-step.html) guide.
+For more information on JSON schemas, you can take a look at their [Getting Started](https://json-schema.org/learn/getting-started-step-by-step.html) guide.
 
 </details>
 
 <details>
 <summary><b>3️⃣ Generate</b> types <i>(optional)</i></summary><br>
+
+Generating types allows you to have a strongly typed configuration object in your code. As a bonus, it also enables autocompletion for Typescript configuration files!
 
 Generate a `src/configuration.ts` file:
 
@@ -118,8 +121,6 @@ export interface Configuration {
 }
 ```
 
-Types will allow you manipulate a strongly typed configuration object in your code. As a bonus it also enables autocompletion for TS configuration files!
-
 For more information about generating types, please take a look at the [CLI](#cli) section.
 
 </details>
@@ -127,7 +128,7 @@ For more information about generating types, please take a look at the [CLI](#cl
 <details>
 <summary><b>4️⃣ Load & validate</b> your configuration.</summary><br>
 
-Assuming your package is named `my-app`:
+Assuming your package's name is `my-app`:
 
 ```ts
 import { fauda } from 'fauda'
