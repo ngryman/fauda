@@ -8,6 +8,9 @@
   "main": "dist/fauda.js",
   "module": "dist/fauda.modern.js",
   "types": "dist/fauda.d.ts",
+  "bin": {
+    "fauda": "dist/cli.js"
+  },
   "scripts": {
     "build:cli": "microbundle cli.ts -o dist/cli.js -f cjs --target node",
     "build:library": "microbundle index.ts -f modern,cjs --target node",
