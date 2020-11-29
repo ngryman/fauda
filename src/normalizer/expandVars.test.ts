@@ -38,7 +38,7 @@ const TEST_CASES: [string, NodeJS.ProcessEnv, JsonObject, JsonObject][] = [
     { foo: '\\${BAR}' },
     { foo: '${BAR}' }
   ],
-  ['do not crash on other primitives', {}, { foo: 1337 }, { foo: '1337' }]
+  ['keep a number as is', {}, { foo: 1337 }, { foo: 1337 }]
 ]
 
 test.each(TEST_CASES)('%s', (_title, env, config, expected) => {
