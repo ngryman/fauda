@@ -18,7 +18,7 @@
     "build:cli": "microbundle cli.ts -o dist/cli.js -f cjs --target node",
     "build:library": "microbundle index.ts -f modern,cjs --target node",
     "build": "run-p build:*",
-    "postbuild": "rm -rf dist/test",
+    "postbuild": "mv dist/index.d.ts dist/fauda.d.ts && rm -rf dist/test",
     "dev:cli": "microbundle watch cli.ts -o dist/cli.js -f cjs --target node --no-compress",
     "dev:library": "microbundle watch index.ts -f modern --target node --no-compress",
     "dev": "run-p dev:*",
