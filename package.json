@@ -11,6 +11,9 @@
   "bin": {
     "fauda": "dist/cli.js"
   },
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "build:cli": "microbundle cli.ts -o dist/cli.js -f cjs --target node",
     "build:library": "microbundle index.ts -f modern,cjs --target node",
