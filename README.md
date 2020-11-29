@@ -290,7 +290,7 @@ Return the `Configuration` type definition inferred from the passed JSON schema.
 **Examples**
 
 ```ts
-import { promise as fs } from 'fs'
+import { promises as fs } from 'fs'
 import { generateTypes } from 'fauda'
 
 const source = await generateTypes('schema.json')
