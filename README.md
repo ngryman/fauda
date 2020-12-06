@@ -278,6 +278,35 @@ const configuration = await fauda('my-app', 'schema.json')
 | `env`  | `NodeJS.ProcessEnv` | `process.env`   | Dictionary of environment variables, used by the environment variables loader. |
 | `cwd`  | `string`            | `process.cwd()` | Array of CLI options, used by the configuration files loader.                  |
 
+### [normalize](src/normalizer/normalize.ts)
+
+Normalize a configuration object with the given JSON schema.
+
+**Params**
+
+- **config**: `JsonObject`: Configuration object to normalize.
+- **schema**: `string | JsonObject`: Path to a JSON schema, or the schema itself.
+- **env?**: `NodeJS.ProcessEnv`: _(default: `process.env`)_ An object containing environment variables, used to expand variables in the schema.
+
+**Examples**
+
+```ts
+import { normalize } from 'fauda'
+
+const schema = {
+  type: 'object',
+  properties: {
+    foo: {
+      type: 'string',
+      default: 'bar'
+    }
+  }
+}
+
+const safeConfig = await normalize({}, 'schema.json')
+// { foo: 'bar' }
+```
+
 ### [generateTypes](src/generator.ts)
 
 Return the `Configuration` type definition inferred from the passed JSON schema.
