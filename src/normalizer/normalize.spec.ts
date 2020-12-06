@@ -7,8 +7,7 @@ async function getSchema() {
 
 describe('given configuration', () => {
   it('merges default configuration', async () => {
-    expect(normalize({}, await getSchema(), process.env))
-      .toMatchInlineSnapshot(`
+    expect(normalize({}, await getSchema())).toMatchInlineSnapshot(`
       Object {
         "mode": "test",
         "open": false,
@@ -30,11 +29,10 @@ describe('given configuration', () => {
   })
 
   it('throws an error for invalid values', async () => {
-    await expect(async () =>
-      normalize({ port: 'nope' }, await getSchema(), process.env)
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "validate: Validation failed
-            .port should be number"
-          `)
+    await expect(async () => normalize({ port: 'nope' }, await getSchema()))
+      .rejects.toThrowErrorMatchingInlineSnapshot(`
+      "validate: Validation failed
+      .port should be number"
+    `)
   })
 })

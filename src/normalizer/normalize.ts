@@ -6,7 +6,7 @@ import { validate } from './validate'
 export function normalize<Configuration>(
   config: JsonObject,
   schema: JsonObject,
-  env: NodeJS.ProcessEnv
+  env: NodeJS.ProcessEnv = process.env
 ): Configuration {
   return flow(
     _ => expandVars(_, env),
