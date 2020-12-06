@@ -1,9 +1,9 @@
-import { promises as fs } from 'fs'
-import { isObject, merge, reduceRight } from 'lodash'
+import { merge, reduceRight } from 'lodash'
 import { JsonObject } from 'type-fest'
 import { loadArgs, loadEnv, loadFile } from './loaders'
 import { normalize } from './normalizer'
 import { FaudaOptions } from './types'
+import { loadSchema } from './utils/loadSchema'
 
 function normalizeOptions(options: Partial<FaudaOptions>): FaudaOptions {
   const defaultOptions: FaudaOptions = {
@@ -13,16 +13,6 @@ function normalizeOptions(options: Partial<FaudaOptions>): FaudaOptions {
   }
 
   return { ...defaultOptions, ...options }
-}
-
-async function loadSchema(schema: string | JsonObject): Promise<JsonObject> {
-  try {
-    return isObject(schema)
-      ? schema
-      : JSON.parse(await fs.readFile(schema, 'utf8'))
-  } catch (err) {
-    throw new Error('load: Error loading schema\n' + err.message)
-  }
 }
 
 async function loadFromAll(
