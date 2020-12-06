@@ -254,7 +254,7 @@ $ MY_APP_PUBLIC_PAGES="['/home', '/about']"
 
 ### [fauda](src/fauda.ts)
 
-Load, normalize, and return a configuration object from multiple sources.
+Loads, normalizes, and returns a configuration object from multiple sources.
 
 **Params**
 
@@ -280,7 +280,7 @@ const configuration = await fauda('my-app', 'schema.json')
 
 ### [normalize](src/normalizer/normalize.ts)
 
-Normalize a configuration object with the given JSON schema.
+Normalizes a configuration object using the provided JSON schema.
 
 **Params**
 
@@ -309,12 +309,12 @@ const safeConfig = await normalize({}, 'schema.json')
 
 ### [generateTypes](src/generator.ts)
 
-Return the `Configuration` type definition inferred from the passed JSON schema.
+Returns the `Configuration` type definition inferred from the given JSON schema.
 
 **Params**
 
 - **schema** `string | JsonObject`: Path to a JSON schema, or the schema itself, used to generate the `Configuration ` type.
-- **options** `Partial<Options>`: See available [options of `json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript#options).
+- **options?** `Partial<Options>`: See available [options of `json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript#options).
 
 **Examples**
 
