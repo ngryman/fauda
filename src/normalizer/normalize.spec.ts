@@ -1,13 +1,9 @@
-import { promises as fs } from 'fs'
 import { normalize } from './normalize'
-
-async function getSchema() {
-  return JSON.parse(await fs.readFile('test/fixtures/schema.json', 'utf8'))
-}
 
 describe('given configuration', () => {
   it('merges default configuration', async () => {
-    expect(normalize({}, await getSchema())).toMatchInlineSnapshot(`
+    expect(await normalize({}, 'test/fixtures/schema.json'))
+      .toMatchInlineSnapshot(`
       Object {
         "mode": "test",
         "open": false,
@@ -21,7 +17,7 @@ describe('given configuration', () => {
 
   it('expands environment variables', async () => {
     expect(
-      normalize({ port: '${PORT}' }, await getSchema(), {
+      await normalize({ port: '${PORT}' }, 'test/fixtures/schema.json', {
         ...process.env,
         PORT: '8080'
       })
@@ -29,8 +25,9 @@ describe('given configuration', () => {
   })
 
   it('throws an error for invalid values', async () => {
-    await expect(async () => normalize({ port: 'nope' }, await getSchema()))
-      .rejects.toThrowErrorMatchingInlineSnapshot(`
+    await expect(async () =>
+      normalize({ port: 'nope' }, 'test/fixtures/schema.json')
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "validate: Validation failed
       .port should be number"
     `)

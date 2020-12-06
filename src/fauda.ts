@@ -34,7 +34,7 @@ export async function fauda<Configuration>(
   options: Partial<FaudaOptions> = {}
 ): Promise<Configuration> {
   const safeOptions = normalizeOptions(options)
-  const safeConfig = normalize<Configuration>(
+  const safeConfig = await normalize<Configuration>(
     await loadFromAll(namespace, safeOptions),
     await loadSchema(schema),
     safeOptions.env
