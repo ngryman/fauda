@@ -14,6 +14,16 @@
   "files": [
     "dist/*"
   ],
+  "keywords": [
+    "configuration",
+    "config",
+    "settings",
+    "load",
+    "environment",
+    "env",
+    "file",
+    "cli"
+  ],
   "scripts": {
     "build:cli": "microbundle cli.ts -o dist/cli.js -f cjs --target node",
     "build:library": "microbundle index.ts -f modern,cjs --target node",
